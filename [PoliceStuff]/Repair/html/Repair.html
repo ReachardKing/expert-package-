@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!--<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script> -->
+</head>
+
+<style>
+    @import url('https://use.fontawesome.com/releases/v7.1.2/css/all.css');
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        text-transform: capitalize;
+        overflow: hidden;
+    }
+        
+    #Extras-container {
+        transform: translate(-50%, 50%) scale(0);
+    }
+        
+    #Extras-container.active {
+        transform: translate(-50%, 50%) scale(1); 
+    }
+</style>
+<body>
+    <script src="Repair.js"></script>
+    <script></script>
+    <div class="Repair_HUD" style="border: 7px solid purple; background-color: lightblue; color: white; position: absolute; width: 35em; height: 13.6em; top: calc(50% - -17em); left: calc(50% - 15em);">
+        <button class="Repair" style="border: 5px solid green; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px  0  5px; "><i class="fa-solid fa-car"></i> Repair</button>
+        <button class="local" style="border: 5px solid green; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px  0  5px;"><i class="fa-solid fa-car"></i> Call local</button>
+        <button class="Openthis" style="border: 5px solid green; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px  0  5px;"><i class="fa-solid fa-money-bill"></i> pay</button>
+        <button class="Store" style="border: 5px solid green; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px  0  1px;"><i class="fa-solid fa-trash-alt"></i> Store</button>
+    </div>
+    <!-- <div class="" id="Extrascontainer" style="background: gray; width: 139px; height: 350px; top: 100%; left: 75%; position: relative;">
+		<p> Vehicles Extras</p>
+        <label class="switch"><input type="checkbox" id="Extras" onclick="closeExtra()"><span class="slider round"></span></label> 
+        <label class="switch"><input type="checkbox" id="Extras" onclick="closeExtra()"><span class="slider round"></span></label>
+    </div> -->
+    <div id="Paycenter" style="border: 7px solid purple; background: lightblue; position: absolute; width: 35.2em; height: 6.9em; top: calc(50% - -15em); left: calc(50% - 15em);">
+        <button class="" id="cash" style="border: 5px solid green; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px 0 5px;"><i class="fa-solid fa-money-bill"></i></button>
+        <button class="" id="bank" style="border: 5px solid green; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px 0 5px;"><i class="fa-solid fa-money-bill"></i></button>
+    </div>
+</body>
+</html>
