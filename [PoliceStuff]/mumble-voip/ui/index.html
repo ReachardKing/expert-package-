@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<title>mumble-voip</title>
+		
+		<style>
+			.info-container {
+				position: absolute;
+				bottom: 0%;
+				right: 0%;
+				text-align: right;
+				padding: 5px;
+				font-family: sans-serif;
+				font-weight: bold;
+				color: rgb(1, 176, 240);
+				font-size: 0.5vw;
+				text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+			}
+
+			.talking {
+				color: rgba(244, 196, 65, 255);
+			}
+
+			.watermark {
+				position: fixed;
+				top: 0%;
+				right: 0%;
+				text-align: right;
+				opacity: 0.4;
+				z-index: 99;
+				color: rgb(184, 185, 185);
+				font-family: Arial;
+				font-weight: normal;
+				font-size: 0.5vw;
+				opacity: 0.8;
+			}
+
+			.radio-list-container {
+				position: absolute;
+				top: 1%;
+				right: 0%;
+				text-align: right;
+				padding: 5px;
+				font-family: sans-serif;
+				font-weight: bold;
+				color: rgb(1, 176, 240);
+				font-size: 0.5vw;
+				text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+			}
+
+			/* Radio UI display */
+			#voip-tac {
+				position:relative;
+				width: 19%;
+				height: 3%;
+				padding: 1px;
+				top: 45%;
+				left: 107%;
+				margin-bottom: 5px;
+				color:  rgb(255,  255, 255, 1);
+				top: calc(50% - 33em);
+				left: calc(50% - -25em);
+
+				/*top: 45%;, left:107%;
+				top: calc(50% - 33em);
+				left: calc(50% - -25em);*/
+				
+				background: rgba(128, 128, 128, 0.5);
+				border-radius: 24px;
+				border: 17px solid rgba(128, 128, 128, 0.5);
+				justify-content: space-between;
+				align-items: center;
+				display: flex;
+			}
+
+			.fa-solid{
+				font-size: 15px;
+				transition: 0.3s;
+				float: left;
+				color: red;
+				background: blue;
+				margin-right: 5px;
+			}
+
+			.TacSettings {
+				position:relative;
+				width: 17%;
+				height: 12em;
+				top: calc(50% - 25em);
+				left: calc(50% - -27em);
+				
+				background: rgba(128, 128, 128, 0.5);
+				border: 5px solid rgba(128, 128, 128, 0.5);
+				color: white;
+				overflow-y: auto;
+			}
+
+			p {
+				margin-left: 2px;
+				position: relative;
+			}
+
+			.fa-file-lines {
+				display: contents;
+			}
+
+			.currentTack,
+			.PriviousTac {
+				color: white;
+			}
+
+			.container {
+				width: 50%;
+				position: relative;
+				padding-left: 15px;
+				margin-bottom: 12px;
+				cursor: cell;
+				font-size: 22px;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				align-items: center;
+				justify-content: space-between;
+			}
+
+			.container input {
+				position: absolute;
+				opacity: 0;
+				cursor: cell;
+				width: 0;
+				height: 0;
+			}
+
+			.checkmark {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 25px;
+				width: 25px;
+				border: 5px solid crimson;
+			}
+
+			.container:hover input ~ .checkmark{
+				background: white;
+			}
+
+			.container input:checked ~ .checkmark {
+				background: #2196f3;
+			}
+
+			.checkmark::after {
+				content: "";
+				position: absolute;
+				display: none;
+			}
+
+			.container input:checked ~ .checkmark {
+				display: block;
+			}
+
+			.container .checkmark::after {
+				left: 9px;
+				top: 5px;
+				width: 5px;
+				height: 10px;
+				border: solid white;
+				border-width: 0 3px 3px 0;
+				-webkit-transform: rotate(45deg);
+				-ms-transform: rotate(45deg);
+				transform: rotate(45deg);
+			}
+		</style>
+		<script type="text/javascript">
+			let speakerEnabled = true;
+			
+			window.addEventListener("message", function(event) {
+				var item = event.data;
+
+				let currentDate = new Date();
+				const elements = {
+					voipdata: $("#voip-tac"),
+					evedenceDate: $("#EvidenceDate"),
+					Tacsettings: $(".TacSettings")
+				}
+				
+				function importantElement(stat, el)
+				{
+					stat ? el.fadeIn() : el.fadeOut();
+				}
+				
+				importantElement(false, elements.voipdata);
+				importantElement(false, elements.Tacsettings);
+				importantElement(false, elements.evedenceDate);
+
+				window.addEventListener("message", (event)=> {
+					const item = event.data;
+
+					switch(item.action || item.type) {
+						case 'on':
+							importantElement(false, elements.voipdata)
+							importantElement(false, elements.evedenceDate)
+							break
+						case 'tacsettings':
+							importantElement(true, elements.Tacsettings)
+							break
+						case 'hide':
+							importantElement(false, elements.voipdata);
+							importantElement(false, elements.Tacsettings);
+							importantElement(false, elements.evedenceDate);
+							break
+						default:
+							break
+					}
+				});
+
+				$("#EvidenceDate").text("Date: " + currentDate.getDate() + "/" + (currentDate.getMonth()+1) + "/" + currentDate.getFullYear() + " | Time: " + currentDate.getHours() + ":" + (currentDate.getMinutes()<10?'0':'') + currentDate.getMinutes());
+				$("#EvidenceDate").text(currentDate);
+
+				if ((event.key == 'Escape' || event.key == "Backspace") && $(".TacSettings").is(':visible')) {
+					importantElement(false, elements.Tacsettings);
+					$.post(`https://mumble-voip/close`, JSON.stringify({}));
+				}
+				
+				$(document).on("click", ".close, .Close-impound", ()=> {
+					$.post(`https://mumble-voip/close`,  JSON.stringify({}))
+				})
+				
+				$(document).on("click", "#close-Secondary-radio", ()=> {
+					$("#radioanimation").fadeOut();
+					$.post(`https:///mumble-voip/close`,  JSON.stringify({}))
+				})
+				$(document).on("click", "#Defualt-animation", ()=> {
+					$.post(`https:///mumble-voip/animation`, JSON.stringify({animation: "default"}))
+				})
+
+				$(document).on("click", "#radio-chatter", ()=> {
+					$.post(`https://Policeradio/animation`, JSON.stringify({animation: "chatter"}))
+				})
+
+				$(document).on("click", "#radio-chest", ()=> {
+					$.post(`https:///mumble-voip/animation`, JSON.stringify({animation: "chest"}))
+				})
+
+				$(document).on("click", "#radio-earpice", ()=> {
+					$.post(`https:///mumble-voip/animation`, JSON.stringify({animation: "earpiece"}))
+				})
+				
+				if (item.sound && item.volume) {
+					let snd = document.getElementById(item.sound);
+					snd.load();
+					snd.volume = item.volume;
+					snd.play();
+				}
+
+				if (item.speakerOption != null) {
+					speakerEnabled = item.speakerOption;
+				}
+
+				if (item.mode) {					
+					let modeElem = document.getElementById("voip-mode");
+
+					modeElem.textContent = item.mode + (item.radioActive ? " on radio" : "");
+
+					if (item.talking != null) {
+						if (item.talking) {
+							modeElem.className = "talking"
+						} else {
+							modeElem.className = ""
+						}
+					}					
+				}
+
+				if (item.radio != null) {
+					let radioElem = document.getElementById("voip-radio");
+					let currentTack = document.getElementById("currentTack");
+					if (item.radio > 0 || isNaN(item.radio)) {
+						radioElem.textContent = "[Radio] " + item.radio + (!isNaN(item.radio) ? " MHz" : "");
+						currentTack.textContent = "[Radio] " + item.radio + (!isNaN(item.radio) ? " MHz" : "");					
+					} else {
+						radioElem.textContent = "";
+						currentTack.textContent = "";
+					}
+				}
+	
+				if (item.call != null) {
+					let callElem = document.getElementById("voip-call");
+					
+					if (item.call > 0) {
+						if (speakerEnabled) {
+							callElem.textContent = "[Call] [" + (item.speaker ? "\uD83D\uDD0A" : "\uD83D\uDD08") + "] " + item.call;
+						} else {
+							callElem.textContent = "[Call] " + item.call;
+						}
+					} else {
+						callElem.textContent = "";
+					}
+				}
+
+				if (item.warningId != null) {
+					let warningElem = document.getElementById("voip-warning");
+
+					if (item.warningMsg != null) {
+						let warningItem = document.createElement("div");
+						let warningItemTitle = document.createElement("span");
+						let warningItemContent = document.createElement("span");
+
+						warningItem.id = item.warningId;
+						warningItemTitle.textContent = "[Warning] ";
+						warningItemTitle.className = "talking";
+						warningItemContent.textContent = item.warningMsg;
+
+						warningItem.appendChild(warningItemTitle);
+						warningItem.appendChild(warningItemContent);
+						warningElem.appendChild(warningItem);
+					} else {
+						let warningItem = document.getElementById(item.warningId);
+						warningElem.removeChild(warningItem);
+					}
+				}
+
+				if (item.radioId != null) {
+					let radioListElem = document.getElementById("voip-radio-list");
+
+					if (!radioListElem.firstChild) { //add radio list header
+						let listHeader = document.createElement("div");
+
+						listHeader.id = "voip-radio-list-header";
+						listHeader.textContent = "\uD83D\uDCE1Radio List";
+						listHeader.style.textDecorationLine = "underline";
+
+						radioListElem.appendChild(listHeader);
+					}
+
+					if (item.radioName != null) {
+						let listItem = document.createElement("div");
+
+						listItem.id = "voip-radio-list-item-" + item.radioId;
+						listItem.textContent = item.radioName + (item.self ? "\uD83D\uDD38" : "\uD83D\uDD39");
+
+						radioListElem.appendChild(listItem);
+					} else if (item.radioTalking != null) {
+						let listItem = document.getElementById("voip-radio-list-item-" + item.radioId)
+						
+						if (item.radioTalking) {
+							listItem.className = "talking"
+						} else {
+							listItem.className = ""
+						}
+					} else {
+						let listItem = document.getElementById("voip-radio-list-item-" + item.radioId)
+						radioListElem.removeChild(listItem);
+					}
+				}
+
+				if (item.clearRadioList) {
+					let radioListElem = document.getElementById("voip-radio-list");
+
+					while (radioListElem.firstChild) {
+						radioListElem.removeChild(radioListElem.firstChild);
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<audio id="audio_on" src="mic_click_on.ogg"></audio>
+		<audio id="audio_off" src="mic_click_off.ogg"></audio>
+		<!-- Radio UI Settings -->
+        <div id="voip-tac"><i class="fa-solid fa-file-lines"></i><div id="currentTack"></div></div>
+        <p id="EvidenceDate" style="position:relative; width: 19%; height: 3%; padding: 1px; top: 45%; left: 107%; margin-bottom: 5px; color: rgb(1, 176, 240); top: calc(50% - 33em); left: calc(50% - -25em); text-align: center;background: rgba(128, 128, 128, 0.5); border-radius: 24px; border: 17px solid rgba(128, 128, 128, 0.5);"></p>
+        <!-- Tack Settings -->
+        <div class="TacSettings">
+            <button class="Close-impound" style="float: right; color: purple; font: 15px; background: transparent;">&times;</button>
+            <button id="radioanimation" style="right: 18%; color: purple; position: absolute; width: 150px; height: 20px; cursor: pointer; background: transparent;">change animation</button>
+            <P><i class="fa-solid fa-circle-exclamation"></i> Secodery Radio Tracking Law Emforcement</P>
+            <p id="PriviousTac"></p>
+            <p id="shared"></p>
+            <P id="Prison"></P>
+            <p id="Court"></p>
+
+            <div class="radio-animation" style="display: flex; align-items: center; justify-content: center; visibility: hidden;">
+                <button id="Defualt-animation" style="border: 5px solid crimson; cursor: pointer;">Defualt animation</button>
+                <button id="radio-chatter" style="border: 5px solid crimson; cursor: pointer;">radio chatter</button>
+                <button id="radio-chest" style="border: 5px solid crimson; cursor: pointer;"> chest Radio</button>
+                <button id="radio-earpice" style="border: 5px solid crimson; cursor: pointer;">radio Earpice</button>
+				<button id="close-Secondary-radio" style="border: 5px solid crimson; cursor: pointer;"> close Secodery radio</button>
+            </div>
+        </div>
+		<!--<div class="watermark">mumble-voip by Frazzle.</div>
+		<div class="radio-list-container" id="voip-radio-list"></div>-->
+		<div class="info-container">
+			<div>[Mumble] <span id="voip-mode">Initialising</span></div>
+			<div id="voip-radio"></div>
+			<div id="voip-call"></div>
+			<div id="voip-warning"></div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+   <script src='https://use.fontawesome.com/releases/v7.1.0/css/all.css'></script>
+</head>
+
+    <script src="DispatchSystem.js"></script>
+    <script src="DispatchCallouts.js"></script>
+    <style>
+        @import url('https://use.fontawesome.com/releases/v7.1.0/css/all.css');
+        * {
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            padding-bottom: 15px;
+            text-transform: capitalize;
+        }
+
+        .Dispatchcontainer {
+            position:absolute;
+            width: 25em;
+            height: 59em;
+            text-align: center;
+            border: 20px solid #5555;
+            border-radius: 20px;
+            background:transparent;
+            color: white;
+            overflow-y: auto;
+            top: calc(50% - 30em);
+            left:calc(50% - -35em);
+
+            /* 50% - 30em  */
+            /* 50% - -35em */
+        }
+
+        .Dispatchcontainer .close {
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 1px;
+            background: transparent;
+            border: none;
+            color: purple;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 50%;
+        }
+
+        .sec-one {
+            background: red;
+            color: white;
+            width: 70em;
+            height: 5em;
+            margin-bottom: 5px;
+        }
+
+        .SotsFired {
+            background: red;
+            color: white;
+            width: 70em;
+            height: 8em;
+            margin-bottom: 5px;
+        }
+
+        .sec-two {
+            background: white;
+            color: black;
+            width: 70em;
+            height: 5em;
+            margin-bottom: 5px;
+
+        }
+
+        .sec-three  {
+            background: #555;
+            color: white;
+            width: 76em;
+            height: 5em;
+            margin-bottom: 5px;
+
+        }
+
+        .Flag-plate {
+            background: orange;
+            color: white;
+            width: 76em;
+            height: 5em;
+        }
+
+        .fa-timer, .fa-circle-exclamation, .fa-info, .fa-location-dot, .fa-file-lines {
+            font-size: 15px;
+            transition: 0.3s;
+            float: left;
+            
+        }
+
+        .fa-arrow-right {
+            font-size: 15px;
+            transition: 0.3s;
+            float: right;
+        }
+
+        .fa-gear, .fa-filter {
+            font-size: 15px;
+            transition: 0.3s;
+            float: right;
+            color: red;
+        }
+
+        .container {
+            position: relative;
+            padding-left: 15px;
+            margin-bottom: 12px;
+            cursor: cell;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: cell;
+            width: 0;
+            height: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            border: 5px solid crimson;
+        }
+
+        .container:hover input ~ .checkmark{
+            background: white;
+        }
+
+        .container input:checked ~ .checkmark {
+            background: #2196f3;
+        }
+
+        .checkmark::after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .container input:checked ~ .checkmark {
+            display: block;
+        }
+
+        .container .checkmark::after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .call-code  {
+            text-align: center;
+            background: #007c95;
+            padding: .35vh;
+            padding-bottom: .4vh;
+            padding-left: .1.75vh;
+            padding-right: 1.75vh;
+            margin-top: auto;
+            margin-bottom: auto;
+            margin-left: 0vh;
+        }
+
+        .prority-1 {
+            background: linear-gradient(270deg, #b700, #0a24b0);
+            background-size: 400%, 400%;
+            animation: gradient 5s ease infinite;
+            background: #009b9500;
+        }
+
+        .priority-2 {
+            background: #ce7888;
+        }
+
+        @keyframes gradient {
+            0% {background-position: 0%, 50%;}
+            50% {background-position: 100%, 50%;}
+            100% {background-position: 0%, 50%;}
+        }
+
+        #cadSettings button {
+            background: transparent;
+            cursor: context-menu;
+        }
+
+    </style>
+<body>
+    <div class="Dispatchcontainer">
+        <div class="close">&minus;</div>
+        <p style="color: black; text-align: center;">Dispatch System</p>
+        <hr>
+        <i class="fa-solid fa-filter" id="clearBlips"></i>
+        <i class="fa-solid fa-filter" id="toggleAlert"></i>
+        <i class="fa-solid fa-filter" id="alertdiable"></i>
+        <i class="fa-solid fa-filter" id=""></i>
+        <i class="fa-solid fa-gear" id=""></i>
+        <section><div class="dispatch-callouts"></div></section>
+    </div>
+	<div id="cadSettings" style="margin: 15.5; border-radius: 25px; border: 17px solid black; background: lightblue; color: white; width: 15em; height: 19em; top: calc(50% - 4em); left:  calc(50% - -20em); overflow-y: auto;">
+		<button id="CadCalls" style="width: 100%; margin-top: 1px; height: 20px;">Turn of cad calls <i class="fa-solid fa-arrow-right"></i></button>
+		<button id="Ranger" style="width: 100%; margin-top: 5px; height: 20px;">Turn off ranger cad calls<i class="fa-solid fa-arrow-right"></i></button>
+		<button id="ShotsFired" style="width: 100%; margin-top: 5px; height: 20px;">Turn off shots Fired cad calls<i class="fa-solid fa-arrow-right"></i></button>
+		<button id="emergency" style="width: 100%; margin-top: 7px; height: 20px;">Turn off 911's cad calls<i class="fa-solid fa-arrow-right"></i>911</button>
+		<button id="211" style="width: 100%; margin-top: 9px; height: 20px;">Turn off 211's cad calls<i class="fa-solid fa-arrow-right"></i>211</button>
+		<button id="311" style="width: 100%; margin-top: 11px; height: 20px;">Turn off 311 cad calls<i class="fa-solid fa-arrow-right"></i>311</button>
+	</div>
+	<div id="open-cad-calls" style="margin: 15.5; border-radius: 25px; border: 17px solid black; background: lightblue; color: white; width: 15em; height: 19em; top: calc(50% - 4em); left:  calc(50% - -20em); overflow-y: auto;">+
+		<div style="width: 100%; border: 5px solid white; padding: 5px 5px;">
+			<label class="container"> <input type="checkbox"><span class="checkmark"></span></label><h2 style="float: right; font-size: 15px;">Doesn't show UI</h2>
+		</div>
+		<div style="width: 100%; border: 5px solid white; padding: 5px 5px;">
+			<label class="container"> <input type="checkbox"><span class="checkmark"></span></label><h2 style="float:right; font-size: 15px;">test</h2>
+		</div>
+		<div style="width: 100%; border: 5px solid white; padding: 5px 5px;">
+			<label class="container"> <input type="checkbox"><span class="checkmark"></span></label><h2 style="float:right; font-size: 15px;">test</h2>
+		</div>
+		<div style="width: 100%; border: 5px solid white; padding: 5px 5px;">
+			<label class="container"> <input type="checkbox"><span class="checkmark"></span></label><h2 style="float:right; font-size: 15px;">test</h2>
+		</div>
+		<div style="width: 100%; border: 5px solid white; padding: 5px 5px;">
+			<label class="container"> <input type="checkbox"><span class="checkmark"></span></label><h2 style="float:right; font-size: 15px;">test</h2>
+		</div>
+	</div>
+</body>
+</html>

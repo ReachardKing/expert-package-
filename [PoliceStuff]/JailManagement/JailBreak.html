@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	</head>
+<style>
+    @import url('https://use.fontawesome.com/releases/v7.1.0/css/all.css');
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box; overflow: hidden;      
+    }
+
+    .input-wrap {
+        width: 680px;
+       
+    }
+    
+    .enterarea {
+        position:relative;
+        height: 80px;
+        line-height: 80px;
+       
+    }
+    
+    .enterarea select{
+        background: #555;
+        width: 77%;
+        transition: 0.2s ease;
+        border: 5px sold darkblue;
+    }
+
+    select:focus,
+    select:valid {
+        border: 2px solid rgba(8, 252, 69, 1);
+    }
+
+    .enterarea select ~ .label-line{
+        transform: translateY(-10px) ;
+    }
+    
+    .label-line {
+        position: absolute;
+        font-size: 15px;
+        color: white;
+        margin:0  5px;
+        padding: 0 20px;
+        background: transparent;
+        transition: 0.2s ease;
+        pointer-events: none;
+    }
+
+    .close {
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        top: 1px;
+        width: 30px;
+        background: purple;
+        color: white;
+        font-size: 25px;
+        font-weight: 600;
+        text-align: center;
+        border-radius: 50%;
+    }
+    
+    .displaycontent {
+        font-size: 20px;
+        cursor: pointer;
+        width: 91%;
+        padding: 15px 14px;
+        text-align: center;    
+        position: relative;
+        background: none;
+        border: 2px solid crimson;
+    }
+
+    .custominput {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        justify-items: center;
+        position: relative;
+        background:white;
+        height: 25px;
+        min-width: 55px;
+
+    }
+
+    .custominput span {
+        width: 10%;
+        text-align: center;
+        color: black;
+        font-size: 20px;
+    }
+
+</style>
+<body>
+    <script src="index.js"></script>
+
+    <div id="JailBreak" style="margin: 15.5px; border-radius: 25px; border: 17px solid #5555; background: #555; color: white; position: absolute ;cursor:pointer; width: 34em; height: 15em; top: calc(50% - -20em); left: calc(50% - 20em);">
+        <p style="background: black; color: white; text-align: center; font-size: 20px;">SASS Management / DOC </p>
+    
+        <button type="button" class="close">&minus;</button>
+        <div class="input-wrap">
+            <div class="enterarea">
+                <div class="label-line">Select options</div>
+                <select id="Get-charcter-infomation"><option value="" disabled></option></select>
+            </div>
+        </div>
+
+        <div class="input-wrap">
+            <div class="enterarea">
+                <div class="label-line">Select options</div>
+                <select>
+                    <option></option>
+                    <option>999</option>
+                    <option>Life</option>
+                    <option>Time servered</option>
+                    <option>Release</option>
+                </select>
+            </div>
+        </div>
+        <hr>
+        <button class="Submit" style="margin-left: 0.3vw; background: rgb(8, 252, 69); width: 8.6vw; height: 3vh; border-radius: 0.5vh; transition: 0.3s; cursor: pointer;">Confirm</button>
+        <button class="Cancel" style="margin-left: 0.3vw; background: rgb(236, 19, 19); width: 5vw; height: 3vh; border-radius: 0.5vh; transition: 0.3s; cursor: pointer;">Cancel</button>
+    </div>
+    <div class="ViewContent" style="position:absolute; width:20em; height:59em; padding: 5px;  top: calc(50% - 12em); left: calc(50% - 44em); background:darkblue; border-radius: 24px; border: 5px solid #555; color: white; overflow-y: auto;">
+        <div class="displaycontent">
+            <!-- Character display -->
+            <div id="Charactercontent"></div>
+        </div>
+    </div>
+</body>
+</html>

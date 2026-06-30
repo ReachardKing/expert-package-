@@ -1,0 +1,176 @@
+ local tablet = false
+    local tabletObj = nil
+    local tabletDict = "amb@code_human_in_bus_passenger_idles@female@tablet@base"
+    local tabletAnim = "base"
+    local tabletProp = `prop_cs_tablet`
+    local tabletBone = 60309
+    local tabletOffset = vector3(0.03, 0.002, -0.0)
+    local tabletRot = vector3(10.0, 160.0, 0.0)
+
+    if tablet then 
+        tablet = true
+        -- Animation
+        RequestAnimDict(tabletDict)
+        while not HasAnimDictLoaded(tabletDict) do Citizen.Wait(100) end
+        -- Model
+        RequestModel(tabletProp)
+        while not HasModelLoaded(tabletProp) do Citizen.Wait(100) end
+        
+        local plyPed = PlayerPedId()
+        tabletObj = CreateObject(tabletProp, 0.0, 0.0, 0.0, true, true, false)
+        local tabletBoneIndex = GetPedBoneIndex(plyPed, tabletBone)
+        
+        AttachEntityToEntity(tabletObj, plyPed, tabletBoneIndex, tabletOffset.x, tabletOffset.y, tabletOffset.z, tabletRot.x, tabletRot.y, tabletRot.z, true, false, false, false, 2, true)
+        SetModelAsNoLongerNeeded(tabletProp)
+
+        CreateThread(function()
+        while tablet do
+            Wait(0)
+            if not IsEntityPlayingAnim(plyPed, tabletDict, tabletAnim, 3) then
+                TaskPlayAnim(plyPed, tabletDict, tabletAnim, 3.0, 3.0, -1, 49, 0, 0, 0, 0)
+            end
+        end
+        ClearPedSecondaryTask(plyPed)
+        Citizen.Wait(250)
+        DetachEntity(tabletObj, true, false)
+        DeleteEntity(tabletObj)
+    end)
+
+function SpawnSASSveh(x, y, z, driver, SASSveh)
+    local found, spawnPos, spawnHeading = GetClosestVehicleNodeWithHeading(x + math.random(-spawnRadius, spawnRadius), y + math.random(-spawnRadius, spawnRadius), z, 0, 3, 0)
+
+    if found and HasModelLoaded(SASSveh) and HasModelLoaded(SASSveh) then
+        SASSvehicle = CreateVehicle(SASSveh, spawnPos, spawnHeading, true, false)
+        ClearAreaOfVehicles(GetEntityCoords(SASSvehicle), 500, false, false, false, false, false)
+        SetVehicleOnGroundProperly(SASSvehicle)
+        SetVehicleColours(SASSvehicle, number)
+        SetVehicleLivery(SASSvehicle, number)
+        SetEntityInvincible(driver, true)
+        CreatePedInsideVehicle(SASSvehicle, 26, driver, -1, true, false)
+
+        exports.PoliceEnssentials:SASSonduty(driver)
+    end
+end
+
+function DeleteSASSveh(sassveh, driver)
+    SetEntityAsMissionEntity(sassveh)
+    DeleteEntity(sassveh)
+    SetEntityAsMissionEntity(driver)
+    DeleteEntity(driver)
+end
+
+function GetToSuspect(x, y, z, truck, msec, driver, suspect, truckhash)
+    TaskVehicleDriveToCoord(driver, truck, x, y, z, 17.0, 0, truckhash, 786603, 1, true)
+    ShowAdvancedNotification("CHAR_HUMANDEFAULT", "San Adreas Security Services", "SASS Transport Is Enroute", "A SASS transport as been dispatched to your location.")
+    enroute = true
+    while enroute == true do
+        Citizen.Wait(600)
+        distance = GetDistanceBetweenCoords(GetEntityCoords(suspect), x, y, z, false)
+        if distance < 15 then -- Intantly execute
+            SetVehicleDoorOpen(truck, 3, false, false)
+            SetVehicleDoorOpen(truck, 4, false, false)
+            seats = {1, 2}
+            AttachEntityToEntity(driver, suspect, boneIndex, xPos, yPos, zPos, 0.0, 0.0, 0.0, false, false, false, false, 20, true)
+            SetPedIntoVehicle(suspect, seats)
+            SetEnableHandcuffs(suspect, true)
+            GetToDestination(driver)
+        elseif distance < 20 then
+            Citizen.Wait(msec)
+            PickupSuspect(driver, suspect)
+        end
+    end
+end
+
+function PickupSuspect(driver, suspect, boneIndex, xPos, yPos, zPos)
+    seats = {1, 2}
+    AttachEntityToEntity(driver, suspect, boneIndex, xPos, yPos, zPos, 0.0, 0.0, 0.0, false, false, false, false, 20, true)
+    SetPedIntoVehicle(suspect, seats)
+    SetEnableHandcuffs(suspect, true)
+    GetToDestination(driver)
+end
+
+------------------------------------
+ local player = GetPlayerPed(-1)
+    local Playerpos = GetEntityCoords(player)
+
+    local inFrontOfPlayer = GetOffsetFromEntityInWorldCoords(player, 0.0, 5.0, 0.0)
+
+    local TargetSuspect = GetToSuspect(Player, inFrontOfPlayer)
+
+    local SASSveh = GetHashKey("POLICET")
+    RequestModel(SASSveh)
+
+    local SASShash = GetHashKey("mp_m_securoguard_01")
+    RequestModel(SASShash)
+
+    while not HasModelLoaded(SASSveh) and RequestModel(SASSveh) or not HasModelLoaded(SASShash) and RequestModel(SASShash) do
+        RequestModel(SASShash)
+        RequestModel(SASSveh)
+        Citizen.Wait(0)
+    end
+
+    if DoesEntityExist(TargetSuspect) then
+        if DoesEntityExist(suspect) then
+            SpawnSASSveh(Playerpos.x, Playerpos.y, Playerpos.z, TargetSuspect, suspect)
+        end
+        GetToSuspect(GetEntityCoords(suspect).x, GetEntityCoords(suspect).y, GetEntityCoords(suspect).z)
+    end
+------------------------------------
+function GetToDestination(suspect, driver, truck, x, y, z)
+    local SetWayPoint = SetNewWaypoint(1677.233, 2658.618, 45.216)
+    local distance = 3
+    if SetWayPoint then
+        Citizen.Wait(300)
+        TaskVehicleDriveToCoord(driver, truck, x, y, z, 17.0, 0, truck, 186603, 1, true)
+    end
+
+    if GetDistanceBetweenCoords(x, y, z) > distance then
+        
+        RequestAnimDict("mp_arresting")
+
+        if IsEntityPlayingAnim(driver, "mp_arresting", "idle", 3) then
+            SetEnableHandcuffs(driver, false)
+            SetEnableHandcuffs(suspaect, false)
+            RemoveAllPedWeapons(suspect, true)
+            SetEntityInvincible(driver, true)
+            SetEntityInvincible(suspect, true)
+        end
+
+        -- Just incase the first one does not work
+        if TaskPlayAnim(driver, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0) then
+            SetEnableHandcuffs(driver, false)
+            SetEnableHandcuffs(suspaect, false)
+            RemoveAllPedWeapons(suspect, true)
+            SetEntityInvincible(driver, true)
+            SetEntityInvincible(suspect, true)
+        end
+        
+        Citizen.Wait(300)
+
+        SetEntityCoords(suspect, 1677.233, 2658.618, 45.216, true, false, false, true)
+        
+        if IsPedInAnyVehicle(Ped, false) then
+            local Handle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+            SetEntityAsMissionEntity(Handle, true, true)
+            SetEntityAsNoLongerNeeded(Handle)
+            DeleteEntity(Handle)
+            ClearPedTasksImmediately(PlayerPedId())
+        end
+    end
+    Citizen.Wait(500)
+    LeaveTarget(vehicle, driver)
+end
+
+function LeaveTarget(driver, vehicle)
+    TaskVehicleDriveWander(driver, vehicle, 50.0, 786603)
+    SetEntityAsNoLongerNeeded(vehicle)
+    SetEntityAsNoLongerNeeded(driver)
+    RemoveBlip(blip)
+end
+
+function ShowAdvancedNotification(image, title, subtitle, text)
+	SetNotificationTextEntry("STRING");
+	AddTextComponentString(text);
+	SetNotificationMessage(image, image, false, 0, title, subtitle);
+	DrawNotification(false, true);
+end

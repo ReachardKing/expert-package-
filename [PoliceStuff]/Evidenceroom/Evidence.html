@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="Evidence.js" defer></script>
+    <title>Evidence</title>
+</head>
+<style>
+    @import url('https://use.fontawesome.com/releases/v7.1.2/css/all.css');
+
+    * {
+        padding: 0;
+        margin: 0;
+        border-radius: 0;
+        overflow: hidden;
+        text-transform: capitalize;
+    }
+</style>
+
+<body>
+    <div class="EvidencePupOut" style="border: 5px solid purple; background: darkblue; color: white; position: absolute; width: 34em; height: 13em; top: calc(50%  - -18em); left: calc(50% - 15em);">
+        <button class="CheckEvidence" style="border: 5px solid crimson; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px 0 5px;"><i class="fa-solid fa-business-time"></i> Send content</button>
+        <button class="Evidence" style="border: 5px solid crimson; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px 0 5px;"><i  class=" fas fa-eye"></i> Evidence</button>
+        <button class="Evidencelocker" style="border: 5px solid crimson; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px 0 5px;"><i class="fas fa-eye" style="color: white;"></i> Evidence Locker</button>
+        <button class="Deposcontent"  style="border: 5px solid crimson; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px 0 5px;"><i class="fas fa-trash-alt" style="color: white;"></i> Dispos content</button>
+    </div>
+    <!-- ReceiveEvidence -->
+     <div id="ReceiveEvidence" class="ReceiveEvidence" style="position:absolute; width:20em; height:59em; padding: 5px;  top: calc(50% - 22em); left: calc(50% - -30em); background:darkblue; border-radius: 24px; border: 2px solid darkblue; color: white; overflow-y: auto;">
+        <div style="border: none; cursor: pointer; position: absolute; right: 20px; top: 1px; background: transparent; padding: 0; margin: 0; border: none; color: purple; font-weight: 600; text-align: center; border-radius: 5px; font-size: 20px;" id="close">&times;</div>
+        <P>Receive Evidence</P>
+        <div class="displaycontent" style="font-size: 20px; cursor: cell; width: 91%; padding: 15px 14px; text-align: center;     position: relative; background: none; border: 2px solid crimson;">
+            <!-- Character display -->
+        </div>
+    </div>
+</body>
+
+</html>
