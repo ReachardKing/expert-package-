@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Personal Enssentials</title>
+</head>
+<style>
+    @import url('https://use.fontawesome.com/releases/v7.1.0/css/all.css');
+
+    * {
+        padding: 0;
+        margin: 0;
+        border-radius: 0;
+        overflow: hidden;
+        text-transform: capitalize;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $(() => {
+            $("body").hide();
+            window.addEventListener("message", (event) => {
+                var item = event.data;
+
+                if (item.action != undefined && item.action === "Stuff") {
+                    if (item.visible == true) {
+                        $("body").show()
+                    } else {
+                        $("body").hide()
+                    }
+                }
+            })
+            // Personal Stuff
+
+
+            // Links
+            $(".Store").click(() => {
+                $.post(`https://PersonalEnssentials/Store`, JSON.stringify({}))
+            })
+
+            $(".Armory").click(() => {
+                $.post(`https://PersonalEnssentials/Armory`, JSON.stringify({}))
+            })
+
+            $(".Personal").click(() => {
+                $.post(`https://PersonalEnssentials/Personal`, JSON.stringify({}))
+            })
+
+            $(".Trash").click(() => {
+                $.post(`https://PersonalEnssentials/Trash`, JSON.stringify({}))
+            })
+        })
+
+        window.onload = () => {
+            window.addEventListener("message", (event) => {
+                const key = event.key;
+
+                switch (key) {
+                    case 38:
+                        fetch(`https://${GetCurrentResourceName()}/up`, {
+                            method: 'POST'
+                        })
+                    case 37:
+                        fetch(`https://${GetCurrentResourceName()}/left`, {
+                            method: 'POST'
+                        })
+                    case 39:
+                        fetch(`https://${GetCurrentResourceName()}/right`, {
+                            method: 'POST'
+                        })
+                    case 40:
+                        fetch(`https://${GetCurrentResourceName()}/down`, {
+                            method: 'POST'
+                        })
+                    case 13:
+                        fetch(`https://${GetCurrentResourceName()}/ESC`, {
+                            method: 'POST'
+                        })
+                    case 27:
+                        fetch(`https://${GetCurrentResourceName()}/Enter`, {
+                            method: 'POST'
+                        })
+                        break
+                    }
+                })
+            }
+        })
+</script>
+
+<body>
+    <div class="PersonalEnssentials"
+        style="border:5px solid purple; background: darkblue; color: white; position: absolute; width: 34.5em; height: 13em; top: calc(50% - -20em); left: calc(50% - 15em);">
+        <button class="Store" style="border: 5px solid crimson; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px 0 5px;"><i class="fa-solid fa-gun"></i> Store LEO Equipments</button>
+        <button class="Armory" style="border: 5px solid crimson; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px 0 5px;"><i class="fa-solid fa-shop"></i> Armory</button>
+        <button class="Personal" style="border: 5px solid crimson; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px 0 5px;"><i class=""> Personal Locker</i></button>
+        <button class="Trash" style="border: 5px solid crimson; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px 0 5px;"><i class="fas fa-trash-alt"></i>Trash</button>
+    </div>
+</body>
+
+</html>

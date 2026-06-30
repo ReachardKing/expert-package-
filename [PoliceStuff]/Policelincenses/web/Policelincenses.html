@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<style>
+    @import url('https://use.fontawesome.com/releases/v7.1.0/css/all.css');
+    * {
+        overflow: hidden;
+        text-transform: uppercase;
+        text-decoration: none;
+        outline: none;
+        border: none;
+    }
+
+    .input-wrap {
+        width: 680px;
+    }
+    
+    .enterarea {
+        position:relative;
+        height: 68px;
+        line-height: 80px;
+    }
+    
+    .enterarea input{
+        position: absolute;
+        width: 75%;
+        font-size: 15px;
+        padding:0 10px;
+        margin:30px 0 0;
+        line-height: 20px;
+        border-radius: 10px;
+        border: 2px solid white;
+        background:transparent;
+        transition: 0.2s ease;
+        z-index: 1111; text-transform: uppercase;
+    }
+    
+    input:focus ~ .label-line {
+        transform: translateY(-40px);
+    }
+
+    .Grantlicenses input ~ .label-line {
+        transform: translateY(100px);
+    }
+
+    .Grantlicenses input {
+        width: 100%;
+    }
+
+    input:focus {
+        border: 2px solid rgba(8, 252, 69, 1);
+    }
+
+    .label-line {
+        position: absolute;
+        width: 75%;
+        font-size: 15px;
+        padding:0 10px;
+        margin:30px 0 0;
+        line-height: 20px;
+        border-radius: 10px;
+        border: 2px solid white;
+        background: transparent;
+        transition: 0.2s ease;
+        z-index: 1111; text-transform: uppercase;
+    }
+
+    p {
+        color: black;
+        background: transparent;
+    }
+
+    .close {
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        width: 30px;
+        background: purple;
+        color: white;
+        font-size: 25px;
+        font-weight: 600;
+        text-align: center;
+        border-radius: 50%;
+    }
+
+    button:hover,
+    button:focus,
+    button:active {
+        background: darkred;
+        cursor: cell;
+    }
+
+    .fa-fire {
+        padding-right: 15px;
+        color: red;
+    }
+
+    .fa-square-check {
+        padding-right: 15px;
+        color: green;
+    }
+</style>
+<body>
+    <div style="margin: 15px; border-radius: 25px; border: 15px solid #5555; background: #5555; color: white; padding: 40px; position: absolute; width: 35em; height: 11em; top: calc(50% - -3em); left: calc(50% - 20em); overflow-y: auto;" id="manage-license-stuff">
+        <!-- First Name -->
+        <div class="input-wrap">
+            <div class="enterarea">
+                <input readonly type="text" id="first-name">
+                <div class="label-line">name</div>
+            </div>
+        </div>
+        <!-- Last Name -->
+        <div class="input-wrap">
+            <div class="enterarea">
+                <input readonly type="text" id="last-name">
+                <div class="label-line">Last name</div>
+            </div>
+        </div>
+        <!-- Date of birth -->
+        <div class="input-wrap">
+            <div class="enterarea">
+                <input readonly type="text" id="DOB">
+                <div class="label-line">Date of birth</div>
+            </div>
+        </div>
+
+        <!-- CSN -->
+        <div class="input-wrap">
+            <div class="enterarea">
+                <input readonly type="text" id="Searched-name">
+                <div class="label-line">CSN</div>
+            </div>
+        </div>
+        <button id="RevokeGunlicense" style="width: 100%; height:50px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-solid fa-fire"></i> Revoke Gun license</i></button>
+        <button id="GrantgUNlicense" style="width: 100%; height:50px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-solid fa-square-check"></i> Grant Gun license</i></button>
+        <button id="GrantHuntinglicense" style="width: 100%; height:50px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-solid fa-square-check"></i> Grant Hunting license</i></button>
+        <button id="RevokeHuntinglicense" style="width: 100%; height:50px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-solid fa-fire"></i> Revoke Hunting license</i></button>
+        <button id="GrantSkipperliicense" style="width: 100%; height:50px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-solid fa-square-check"></i> Grant Skippers license</i></button>
+        <button id="RevokeSkipperlicense" style="width: 100%; height:50px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-solid fa-fire"></i> Revoke Skippers license</i></button>
+    </div>
+    <div class="Grantlicenses" style="margin: 15.5px; position: absolute; border-radius: 5px; border: 17px solid black; background: black; color: white; width: 35em; height: 8em; top: calc(50% - -10em); left: calc(50% - 20em);">
+        <h2 style="background: purple; color: white; height: 25px;">Welcone: <p id="PlayerName"></p></h2>
+        <button type="button" class="close">&minus;</button>
+        <hr class="EditTopTextline">
+        <section>
+          <input type="text" id="Searched-name" placeholder=" Player CSN">
+          <div class="label-line">Input CSN</div>
+        </section>
+        <div class="button">
+          <button class="Submit" style="margin-left: 0.3vw; background: rgb(8, 252, 69); width: 8.6vw; height: 3vh; border-radius: 0.5vh; transition: 0.3s; cursor: cell;">Confirm</button>
+          <button class="Cancel" style="margin-left: 0.3vw; background: rgb(236, 19, 19); width: 8.6vw; height: 3vh; border-radius: 0.5vh; transition: 0.3s; cursor: cell;">Cancel</button>
+        </div>
+    </div>
+    <div style="display:none; border: 7px solid #555; background: #777; position: absolute; width: 35em; height: 20em; top: calc(50% - -11em); left: calc(50% - 15em);" id="Policelincenses">
+        <button id="RevokeGunlicense" style="width: 560px; height:45px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px; text-align: center;"><i class="fa-regular fa-id-card"> Revoke Gun license</i></button>
+        <button id="GrantgUNlicense" style="width: 560px; height:45px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-regular fa-id-card"> Grant Gun license</i></button>
+        <button id="GrantHuntinglicense" style="width: 560px; height:45px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-regular fa-id-card"> Grant Hunting license</i></button>
+        <button id="RevokeHuntinglicense" style="width: 560px; height:45px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-regular fa-id-card"> Revoke Hunting license</i></button>
+        <button id="GrantSkipperliicense" style="width: 560px; height:45px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-regular fa-id-card"> Grant Skippers license</i></button>
+        <button id="RevokeSkipperlicense" style="width: 560px; height:45px; position: relative; background: grey; border: 2px solid crimson; transition: 0.5; cursor: pointer; margin-bottom: 10px;"><i class="fa-regular fa-id-card"> Revoke Skippers license</i></button>
+    </div>
+    <script src="Policelincenses.js" defer></script>
+</body>
+</html>
