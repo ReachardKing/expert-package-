@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v7.1.2/css/all.css">
+    <title>Billing information</title>
+</head>
+<style>* {overflow: hidden; outline: none;}</style>
+<body>
+    <div style="width: 50%; height: 11%; position: absolute; background:#555; display: flex; top: 10%; left: 30%;">
+        <p>Balance: <h4 id="Balance" style="margin: 15px;"></h4></p>
+        <hr>
+        <P>Billing information access anywhere</P>
+    </div>
+    <div style="width: 50%; height: 30%; position: absolute; top: 30%; left: 30%; background: #555;">
+        <p>You can use this any where that's requires a transaction</p>
+        <hr>
+        <p></p>
+        <button class="Pleasechose" data-amount="10">$10.00</button>
+        <button class="Pleasechose" data-amount="25">$25.00</button>
+        <button class="Pleasechose" data-amount="50">$50.00</button>
+        <button class="Pleasechose" data-amount="100">$100.00</button>
+        <p>Custom Ammount</p>
+        <input id="customAmount" class="customAmountInput" placeholder="$">
+        <p>min $ 0.05 - max $ 999.00</p>
+        <button class="contiune" style="width: 30%; height: inherit; background: black; color: white; float: right; cursor: pointer;">Add to chart</button>
+    </div>
+    <div class="BillingInfomation" style="display: none; width: 50%; height: 25%; position: absolute; top: 40%; left: 58%; background:transparent;">
+        <table style="width: 300px;color: rgb(255, 255, 255); text-transform: capitalize; background:darkblue;"><tr><th>Item</th> <th>Remove</th><th>Price</th></tr>
+            <tr>
+                <td>funds</td>
+                <td><button class="remove" style="font-size: 11px; font-weight: 600; color: crimson; cursor: pointer;">Remove</button></td>
+                <td id="Price" class="Price"><span></span></td>
+            </tr>
+
+        </table>
+        <h5 style="position: absolute; float: right;">Sub Total: <p id="SubTotal"></p></h5>
+        <button class="contiune2" style="width: 30%; height: inherit; background: black; color: white; float: left;">Check out</button>
+    </div>
+    <script>
+
+        $(document).ready(()=> {
+            
+            $('body').hide()
+            
+            window.addEventListener("message", ((event)=> {
+                const item = event.dat;
+
+                if (item.action != undefined && item.action === 'BillThis') {
+                    if (item.visible) {
+                        $("body").show();
+                    } else if (item.visible === false) {
+                        $("body").hide();
+                    }
+                }
+            }));
+            
+            $(".contiune2").click(()=> {
+                $(".BillingInfomation").slideUp();
+                $(".BillingInfomation").fadeOut();
+
+                $("input").val(" ");
+                $("#balance").val(" ");
+            });
+
+            $(document).ready(() => {
+                
+                $("#Balance").text(`$ 0.00`); // Default if out of range   
+            
+                const updatebalance = (amount) => {
+                    $("#Balance").text(`$ ${amount.toFixed(2)}`);
+                };
+
+                $(document).on("click", ".Pleasechose", function () {
+                    const selectedAmount = parseFloat($(this).text().replace('$', ''));
+                    updatebalance(selectedAmount);
+                    document.getElementsByClassName("Price")[0].innerHTML = selectedAmount;
+                })
+
+                $(document).on("click", ".Pleasechose", function () {
+                    $(".BillingInfomation").slideDown();
+                    $(".BillingInfomation").fadeIn();
+                });
+
+                $(document).on("click", ".contiune", function () {
+                    const customAmount = parseFloat($("#customAmount").val());
+                    if (customAmount >= 0.05 && customAmount <= 999.00) {
+                        updatebalance(customAmount);
+                        document.getElementById("Price").innerHTML = customAmount;
+                        $(".BillingInfomation").slideDown();
+                    } else {
+                        alert("Please enter a valid amount");
+                    }
+                });
+
+                $(document).on("click", ".remove", function () {
+                    $("#Price").text("");
+                    $(".price").text("");
+                });
+            }) 
+        });
+    </script>
+</body>
+</html>

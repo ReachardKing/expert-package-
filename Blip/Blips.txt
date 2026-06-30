@@ -1,0 +1,40 @@
+local AllBlipsonMap = {
+
+  
+  -- Fire Departments
+  {title="Fire Station", color=1, id=60, scale=0.5, x=215.786, y=-1642.49, z=29.7138},
+  {title="Fire Station", color=1, id=60, scale=0.5, x=1202.38, y=-1460.13, z=34.7642},
+  {title="Fire Station", color=1, id=60, scale=0.5, x=-1087.93, y=-2374.1, z=13.9451},
+  {title="Fire Station", color=1, id=60, scale=0.5, x=-379.942, y=6118.73, z=31.8456},
+  {title="Fire Station", color=1, id=60, scale=0.5, x=-635.992, y=-121.635, z=39.0138},
+  {title="Fire Station", color=1, id=60, scale=0.5, x=1697.26, y=3585.46, z=35.5443},
+  {title="Fire Station", color=1, id=60, scale=0.5, x=-2113.74, y=2831.58, z=32.8093},
+  {title="Fire Station", color=1, id=60, scale=0.5, x=1778.85, y=4601.99, z=37.72},
+  
+  -- Hostipals
+  {title="Hospital", color=74, id=61, scale=0.5, x=337.238, y=-1396.28, z=32.5092},
+  {title="Hospital", color=74, id=61, scale=0.5, x=-450.886, y=-340.387, z=34.5014},
+  {title="Hospital", color=74, id=61, scale=0.5, x=1839.74, y=3672.0, z=34.2767},
+  {title="Hospital", color=74, id=61, scale=0.5, x=360.222, y=-582.222, z=28.8212},
+  {title="Hospital", color=74, id=61, scale=0.5, x=-243.463, y=6327.87, z=32.4262},
+  {title="Hospital", color=74, id=61, scale=0.5, x=-677.003, y=310.929, z=83.0841},
+  {title="Hospital", color=74, id=61, scale=0.5, x=1151.31, y=-1529.95, z=34.9904},
+  {title="Hospital", color=74, id=61, scale=0.5, x=-874.614, y=-308.375, z=39.5448},
+  {title="Hospital", color=74, id=61, scale=0.5, x=-1854.98, y=-347.03, z=49.43},
+  {title="Medical", color=25, id=74, scale=0.75, x = -244.69, y = 6326.61, z = 32.43},
+  {title="Medical", color=25, id=74, scale=0.5, x=292.53, y=-588.48, z=43.17},
+}
+
+Citizen.CreateThread(function()  
+  for _, Custom in pairs(AllBlipsonMap) do
+        Custom.blip = AddBlipForCoord(Custom.x, Custom.y, Custom.z)
+        SetBlipSprite(Custom.blip, Custom.id)
+        SetBlipDisplay(Custom.blip, 4)
+        SetBlipScale(Custom.blip, Custom.scale)
+        SetBlipColour(Custom.blip, Custom.color)
+        SetBlipAsShortRange(Custom.blip, true)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString(Custom.title)
+        EndTextCommandSetBlipName(Custom.blip)
+    end
+end)

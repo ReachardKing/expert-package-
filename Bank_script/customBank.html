@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <style>
+        @import url('https://use.fontawesome.com/releases/v7.1.0/css/all.css');
+
+        * {
+            overflow: hidden;
+            box-sizing: border-box;
+            list-style: none;
+            text-transform: capitalize;
+        }
+
+        ::-webkit-scrollbar {
+            width: 15px;
+            background: black;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: crimson;
+        }
+
+        .flex_align_justify {
+            display:flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bank-info {
+            min-height: 100vh;
+            padding:  20px;
+
+        }
+
+        .tc_wrapper {
+            width: 87em;
+            height: 51em;
+            background: #7777;
+            border-radius: 3px;
+            display:flex;
+            position: absolute;
+            top: calc(50% - 25em);
+            left: calc(50% - 40em);
+        }
+
+        .tc_wrapper .table_list {
+            width: 200px;
+            background: #555;
+            height: 100%;
+        }
+
+        .tc_wrapper .table_content {
+            width: calc(100% - 200px);
+            padding: 0 10px 20px;
+            height: 100%;
+        }
+
+        .tc_wrapper .table_content .tables_header,
+        .tc_wrapper .table_content .tables_header {
+            color: crimson;
+            padding: 25px 0;
+            height: 70px;
+        }
+
+        .tc_wrapper .table_content .tables_header {
+            text-align: center;
+        }
+
+        .tc_wrapper .table_content .tables_body {
+            height: calc(100% - 140px);
+            overflow: auto;
+        }
+
+        .tc_wrapper .table_list ul {
+            padding: 70px 20px;
+            text-align: right;
+        }
+
+        .tc_wrapper .table_list ul li {
+            padding: 10px 0;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 30px;
+            font-weight: bold;
+            transition: all 0.5 ease-in-out;
+        }
+
+        .tc_wrapper .table_list ul li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -20px;
+            width: 2px;
+            height: 100%;
+            background: purple;
+            opacity: 0;
+            transition: all 0.5 ease-in-out;
+        }
+
+        .tc_wrapper .table_list ul li.active,
+        .tc_wrapper .table_list ul li:hover {
+            color: aqua;
+        }
+
+        .tc_wrapper .table_list ul li.active::before {
+            opacity: 1;
+        }
+
+        .tc_wrapper .table_content .tables_body .table_item h3 {
+            padding-top: 10px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .tc_wrapper .table_content .tables_body .table_item p {
+            margin-bottom: 2px;
+        }
+
+        .tc_wrapper .table_content .tables_body .table_item.active {
+            display: block !important;
+        }
+
+        span {
+            color: red;
+        }
+
+        p {
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        /* Bank stuff */
+        #transferButton {
+            position:absolute;
+            width: 15.8vw;
+            top: 9.9vh;
+            right: 4%;
+            cursor: pointer;
+        }
+
+
+        #WithdrawButton {
+            position: absolute;
+            top: 9.5vh;
+            left: 0%;
+            width: 15.8vw;
+            cursor: pointer;
+        }
+
+        #DepositButton {
+            position: absolute;
+            top: 9.9vh;
+            left:32%;
+            width: 15.8vw;
+            cursor: pointer;
+        }
+        
+        .DebitCard {
+            animation: flash linear 10s infinite;
+        }
+
+        @keyframes flash {
+            0% {opacity: 1;}
+            0% {opacity: 0.5;}
+            100% {opacity: 1;}
+        }
+
+        .spinner {
+        position: absolute;
+        top: calc(50% - 15em);
+        left: calc(50% - 15em);
+    }
+
+    .spinner {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        border: 16px solid #2196f3;
+        border-radius: 50%;
+        border-top: 16px solid #18191a;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    </style>
+    <div class="Bank-info flex_align_justify">
+        <div class="tc_wrapper">
+            <div class="table_list">
+                <img src="NFLogo.png" style="position:relative; width:80%; right: -5%;">
+                <div style="background: purple; color: white; height: 5vw; margin-bottom: 0; padding-bottom: 0;">
+                    <h1 id="Playername" style="position:relative; top: 2.0vh; left: 1vw; margin: auto; color: white;"></p>
+                    <p id="date" style="position: relative; top: 2.0vh; left: 1vw; color: black; font-size: 16px;"></p>
+                    <p id="time" style="position: relative; top: 2.0vh; left: 1vw; color: black; font-size: 16px;"></p>
+                </div>
+                <ul>
+                    <li data-tc="tabe_table_1" class="active"><i class="fas fa-plus-circle"></i></b> Create your account</b></li>
+                    <li data-tc="tabe_table_1" class="active"><i class="fas fa-plus-circle"></i></b> Create joint account</b></li>
+                </ul>
+            </div>
+            <div class="table_content">
+                <div class="tables_header">
+                    <div class="close" style="cursor: pointer; position:relative; left: 96%; top: 1%; width: 39px; background: purple; font-size: 25px; font-weight: 600; text-align: center; border-radius: 50%;">x</div>
+                </div>
+                <div class="tables_body">
+                    <div style="display: none;" class="table_item table_item_1">
+                        <div style="min-width: 100px;  background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px; color: crimson; transition: 0.5s; overflow: hidden; margin-left: 0;">
+                            <p id="balance" style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align:center;"></p>
+                            <p id="importantName" style="position: relative; top: -1.7vh; right: 61; font-size: 15px; text-align: right;"></p>
+                            <p id="CIDbank" style="position: relative; font-weight: 500; top: -1.6vh; right: 63vw; font-size: 15px; text-align: right;"></p>
+                            <button style="float: right; color: white; background: rgb(138, 50, 50); cursor: pointer;" id="removeaccount"><i class="fa-solid fa-right-from-bracket" style="display: inline-block;"></i></button>
+                        </div>
+                        <!-- Deposit -->
+                        <div style="display: flex; min-width: 100px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px; color: crimson; transition: 0.5s; overflow: hidden; margin-left: 0;">
+                            <div style="background: #555; width: 15em; height: 3em; margin-left: 25px;">
+                                <div style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align: right;">balance</div>
+                                <div id="balance" style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align:right;"></div>
+                                <i class="active-logo" style="position:relative; top: -5.9%; left: 2.2%; width: 2vw; height: 2vw; border: 2px solid transparent; box-shadow: 0 0 0 2px #ccc; border-radius: 0; overflow: hidden;"></i>
+                            </div>
+                            <!-- Personal balance change -->
+                            <div style="background: #555; width: 15em; height: 3em; margin-left: 25px;">
+                                <div style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align: center;">personal balance change</div>
+                                <div id="balance" style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align:center;"></div>
+                                <i class="active-logo" style="position:relative; top: -5.9%; left: 2.2%; width: 2vw; height: 2vw; border: 2px solid transparent; box-shadow: 0 0 0 2px #ccc; border-radius: 0; overflow: hidden;"></i>   
+                            </div>
+                            <!-- Personal Income -->
+                            <div style="background: #555; width: 15em; height: 3em; margin-left: 25px;">
+                                <div style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align: center;">personal income</div>
+                                <div id="Income" style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align:center;"></div>
+                                <i class="active-logo" style="position:relative; top: -5.9%; left: 2.2%; width: 2vw; height: 2vw; border: 2px solid transparent; box-shadow: 0 0 0 2px #ccc; border-radius: 0; overflow: hidden;"></i>   
+                            </div>
+                            <!-- Period cost -->
+                            <div style="background: #555; width: 15em; height: 3em; margin-left: 25px;">
+                                <div style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align: center;">personal cost</div>
+                                <div id="Personalcost" style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align:center;"></div>
+                                <i class="active-logo" style="position:relative; top: -5.9%; left: 2.2%; width: 2vw; height: 2vw; border: 2px solid transparent; box-shadow: 0 0 0 2px #ccc; border-radius: 0; overflow: hidden;"></i>   
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div style=" display: flex; min-width: 100px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px; color: crimson; transition: 0.5s; overflow: hidden; margin-left: 0;" id="">
+                            <button class="customDeposit" style="background: crimson; width: 20%;cursor: cell;">Dposit</button>
+                            <button class="customWithdraw" style="background: crimson; width: 20%; margin-left: 5px;cursor: cell;">Withdraw</button>
+                            <button class="customTransfer" style="background: crimson; width: 20%; margin-left: 5px;cursor: cell;">Transfaer</button>
+                            <button class="customRename" style="background: crimson; width: 20%; margin-left: 5px;cursor: cell;">Rename Account</button>
+                            <button class="customMamage" style="background: crimson; width: 20%; margin-left: 5px;cursor: cell;">Manage</button>
+                        </div>
+
+                        <!-- Chart value -->
+                        <div style="position: absolute; width: 80.2vw; height: 10.8vw; top: 20vw; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px; color: crimson; transition: 0.5s; overflow: hidden; margin-left: 0;">
+                            <!--  -->
+                        </div>
+                        <!-- Footer -->
+
+                        <div style="position: absolute; width: 80.2vw; height: 10.8vw; top: 32vw; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px; color: crimson; transition: 0.5s; overflow: hidden; margin-left: 0;">
+                            <P>Transaction</P>
+                            <input class="input" style="position: relative; width: 11.8vw; top: 10vh; left: 68%; color: black; background: white; text-align: center;">
+                            <P style="position: relative; width: 10.8vw; top: 10vh; left: 79%; color: black; background: transparent; text-align: center;">1- 100</P>
+                            <i style="position: absolute; top: 10vh; left: 88%; font-size: 11px;" value="10" class=""></i>
+                            <i style="position: absolute; top: 8.8vw; left: 89%; font-size: 18px;" class="fa fa-step-backward fa-2x"></i>
+                            <i style="position: absolute; top: 8.8vw; left: 91%; font-size: 18px;" class="fa fa-step-forward fa-2x"></i>
+                        </div>
+
+                        <!-- End of main page -->
+
+                        <!-- Start of popup's -->
+
+                        <div class="customoption" style="display:none; background: #555; width: 119vh; height: 9vw; left: 30vw; position: absolute;">
+                            <div>
+                                <input id="Dposit" style="position: absolute; width: 15.8vw; top: 3vh; left: 1%; color: black; background: white; text-align: center;" class="input" placeholder="AMMOUNT"><!--  -->
+                                <button id="DepositButton" class="input" form="atm"><i class="fas fa-exchange-alt"></i></button>
+                            </div>
+                            <div>
+                                <input id="Withdraw" style="position: absolute; width: 18.8vw; top: 3vh; left: 30%; color: black; background: white; text-align: center;" class="input" placeholder="AMMOUNT"> <!--  -->
+                                <button id="WithdrawButton" class="input" form="atm"><i class="fas fa-coins"></i></button>
+                            </div>
+                            <div >
+                                <input id="Transfaer" style="position: absolute; width: 18.8vw; top: 3vh; left: 65%; color: black; background: white; text-align: center;" class="input" placeholder="AMMOUNT"> <!--  -->
+                                <button id="transferButton" class="input" form="atm"><i class="fas fa-credit-card"></i></button> 
+                            </div>
+                            <div>
+                                <input type="text" id="TragetID" style="position: absolute; width: 18.8vw; top: 6vh; left: 65%; color: black; background: white; text-align: center;" class="input" placeholder="id">
+                            </div>
+                            <div style="background: transparent; display: flex; position: relative; padding: 10px; justify-content: space-between;  top: 69%;">
+                                <button class="confirmDecline" style="width: 20vh; background: green; height: 1.5vw; margin-left: -7px; color: white;cursor: pointer;">Cancel</button>
+                                <button class="confirmtransactions" style="width: 20vh; background: green; height: 1.5vw; margin-left:6px; color: white; cursor: pointer;">confirm</button>
+                            </div>
+                        </div>
+                        <!-- Manage Access -->
+                        <div style="display:none; background: #555; width: 33vh; height: 10vw; left: 48vw; position: absolute;" id="customManage">
+                            <p style="text-align: left; color: white;"> Manage Acess</p>
+                            <div class="Manage-Access" style="background: #555; width: 33vh; height: 3.5vw;"></div>
+                            <button style="width: 33vh; background: green; cursor: pointer;" id="Addusers"><i class="fa-solid fa-plus"></i></button>
+                            <div style="background: transparent; display: flex; padding: 10px; justify-content: space-between; ">
+                                <button class="Decline" style="width: 20vh; background: green; height: 1.5vw; margin-left: -7px; color: white; cursor: pointer;">Cancel</button>
+                                <button class="Access" style="width: 20vh; background: green; height: 1.5vw; margin-left:6px; color: white; cursor: pointer;">confirm</button>
+                            </div>
+                        </div>
+                        
+                        <!-- User Access -->
+
+                        <div class="UserAccess" style="display:none; background: #555; width: 25vh; height: 10vw; left: 48vw; position: absolute;">
+                           <p  style="text-align: left; color: white;">User Access</p>
+                            <input class="input" style="position: relative; width: 11.8vw; top: 1vh; left: 0%; color: black; background: white; text-align: center;" id="">
+                            <P  style="text-align: left; color: white;">Format: u3xyfgjh</P>
+                            <div style="background: transparent; display: flex; padding: 10px; justify-content: space-between;">
+                                <button class="Decline" style="width: 20vh; background: green; height: 1.5vw; margin-left: -7px; color: white; cursor: pointer;">Cancel</button>
+                                <button class="Accept" style="width: 20vh; background: green; height: 1.5vw; margin-left:6px; color: white; cursor: pointer;">Add</button>
+                            </div>
+                        </div>
+
+                        <!-- Manage Rename Account -->
+                        
+                        <div id="RenamedAccount" style="display:none; background: #555; width: 34vh; height: 8vw; left: 48vw; position: absolute;">
+                            <input class="input" style="position: relative; width: 17.8vw; top: 1vh; left: 0%; color: black; background: white; text-align: center;" placeholder="Set New name">
+                            <div style="background: transparent; display: flex; position: absolute; padding: 10px; justify-content: space-between; top: 69%;">
+                                <button class="Decline" style="width: 15vh; background: green; height: 1.5vw; margin-left: -7px; color: white; cursor: pointer;">Cancel</button>
+                                <button class="NewName" style="width: 15vh; background: green; height: 1.5vw; margin-left:6px; color: white; cursor: pointer;">confirm</button>
+                            </div>
+                        </div>
+
+                        <!-- confirm Delet Button -->
+
+                        <div id="confirmButton" style="width: 27em; height: 5vw; background: green; position: absolute; left: 35vw;">
+                            <p style="text-align: center;">Are you sure you want to perform this action?</p>
+                            <div style="background: transparent; display: flex; position: absolute; padding: 5px; justify-content: space-between; top: 49%; left: 20%;">
+                                <button class="KeepAccount" style="width: 20vh; background: green; height: 1.5vw; margin-left: 52px; color: white; cursor: pointer;">Cancel</button>
+                                <button class="PoofAccount" style="width: 20vh; background: green; height: 1.5vw; margin-left:6px; color: white; cursor: pointer;">confirm</button>
+                            </div>
+                            <div class="spinner" style="display: none;"></div>
+                        </div>
+                        <div id="Successful" style=" width: 20em; height: 5vw; background: green; position: absolute; left: 35vw;">
+                            <P style="text-align: center;">Transaction Successful</P>
+                            <P style="text-align: center;">Account was not  Deleted</P>
+                            
+                        </div>
+                        <div id="Failed" style="width: 20em; height: 5vw; background: green; position: absolute; left: 35vw;">
+                            <P style="text-align: center;">Transaction Failed</P>
+                            <P style="text-align: center;">Account was not deleted</P>
+                           
+                        </div>
+                        <div id="Renamed" style="width: 20em; height: 5vw; background: green; position: absolute; left: 35vw;">
+                            <P style="text-align: center;">Name changed to </P>
+                        </div>
+                        <div id="RenamedFailed" style="width: 20em; height: 5vw; background: green; position: absolute; left: 35vw;">
+                            <P style="text-align: center;">Could not change to </P>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ShowBankUI" style="border: 7px solid purple; background-color: lightblue; color: white; position: absolute; width: 35em; height: 10em; top: calc(50% - -17em); left: calc(50% - 15em);">
+        <button class="collectPlaycheck" style="border: 5px solid green; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px  0  5px;"><i class="fa-solid fa-building-columns"></i></button>
+        <button class="openUIPage" style="border: 5px solid green; width: 550px; height: 45px; background: blue; padding: 2px 2px; margin: 2px  0  5px;"><i class="fa-solid fa-money-check-dollar"></i></button>
+    </div>
+
+    <div class="DebitCard" style="border: 7px solid green; background-color: darkgreen; color: white; position: absolute; width: 25em; height: 14em; top: calc(50% - -5em); left: calc(50% - 15em);">
+      <img src="fleeca_tar.png" style="width: inherit; height:inherit;"> 
+      <div style="display: flex; background: black; top: 1%; position: absolute; left: 1%;">Current Card number is: <p id="CardNumber" style="display: contents;"></p></div>
+      <div style="display:flex; background: black; top: 65%; position: absolute; left: 30%;">Current balance  is: <span id="balance" style="display: contents;"></span></div>
+    </div>
+</body>
+
+<script src="custom.js" defer></script>
+<script src="customBank.js" defer></script>
+<script>
+    window.addEventListener("message", (event) => {
+        const item = event.data;
+        if (item.visible) {
+            $("#Balance").text(item.balance);
+            $("#Playername").text(item.Playername);
+            $("#date").text(`${item.date}, ${today.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}`)
+        }
+
+        if(item.ShowBankUI) {
+            $("#CardNumber").html(` <span>${CreateAllProperlengthCID(11)}</span> `);
+            $("#Balance").text(item.balance);
+        }
+    });
+    
+    const tab_lists = document.querySelectorAll(".table_list ul li");
+    const tab_items = document.querySelectorAll(".table_item");
+
+    tab_lists.forEach(function (list) {
+        list.addEventListener("click", function () {
+            const tab_data = list.getAttribute("data-tc");
+
+            tab_lists.forEach(function (list) {
+                list.classList.remove("active");
+            });
+
+            list.classList.add("active");
+
+            tab_items.forEach(function (item) {
+                const tab_class = item.getAttribute("class").split(" ");
+                if (tab_class.includes(tab_data)) {
+                    item.style.display = "block";
+                }
+                else {
+                    item.style.display = "none";
+                }
+            })
+        })
+    })
+
+    function CreateAllProperlengthCID(length) {
+        const CID = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const CIDLength = CID.length;
+        for (let i = 0; i < length; i++) {
+            result += CID.charAt(Math.floor(Math.random() * CIDLength))
+        }
+        return result;
+    }
+
+    $("#CIDbank").append(`<span>${CreateAllProperlengthCID(15)}</span> - Business`);
+</script>
+</html>

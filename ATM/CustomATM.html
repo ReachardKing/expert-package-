@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<style>
+    @import url('https://use.fontawesome.com/releases/v7.1.2/css/all.css');
+
+    * {
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        list-style: none;
+        text-transform: capitalize;
+    }
+
+    ::-webkit-scrollbar {
+        width: 15px;
+        background: black;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: crimson;
+    }
+
+    .flex_align_justify {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tc_wrapper {
+        position: absolute;
+        top: calc(50% - 15em);
+        width: 800px;
+        height: 450px;
+        background: #7777;
+        border-radius: 3px;
+        display:flex;
+        overflow: hidden;
+    }
+
+    .tc_wrapper .table_list {
+        width: 200px;
+        background: #555;
+        height: 100%;
+    }
+
+    .tc_wrapper .table_content {
+        width: calc(100% - 200px);
+        padding: 0 10px 20px;
+        height: 100%;
+    }
+
+    .tc_wrapper .table_content .tables_header,
+    .tc_wrapper .table_content .tables_header {
+        color: crimson;
+        padding: 25px 0;
+        height: 70px;
+    }
+
+    .tc_wrapper .table_content .tables_header {
+        text-align: center;
+    }
+
+    .tc_wrapper .table_content .tables_body {
+        height: calc(100% - 140px);
+        overflow: auto;
+    }
+
+    .tc_wrapper .table_list ul {
+        padding: 70px 20px;
+        text-align: right;
+    }
+
+    .tc_wrapper .table_list ul li {
+        padding: 10px 0;
+        position: relative;
+        cursor: pointer;
+        margin-bottom: 30px;
+        font-weight: bold;
+        transition: all 0.5 ease-in-out;
+    }
+
+    .tc_wrapper .table_list ul li::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -20px;
+        width: 2px;
+        height: 100%;
+        background: purple;
+        opacity: 0;
+        transition: all 0.5 ease-in-out;
+    }
+
+    .tc_wrapper .table_list ul li.active,
+    .tc_wrapper .table_list ul li:hover {
+        color: aqua;
+    }
+
+    .tc_wrapper .table_list ul li.active::before {
+        opacity: 1;
+    }
+
+    .tc_wrapper .table_content .tables_body .table_item h3 {
+        padding-top: 10px;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .tc_wrapper .table_content .tables_body .table_item p {
+        margin-bottom: 2px;
+    }
+
+    .tc_wrapper .table_content .tables_body .table_item.active {
+        display: block !important;
+    }
+
+    span {
+        color: red;
+    }
+
+    p {
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+    }
+
+    /* Bank stuff  14.2vw 16vh 65%*/
+     #transferButton {
+        position: absolute;
+        width: 14.2vw; 
+        top: 6vh; 
+        left: 65%; 
+        color: black; 
+        background: white; 
+        text-align: center;
+        cursor: cell;
+    }
+
+
+    #WithdrawButton {
+        position: absolute;
+        top: 6.1vh;
+        left: 2%;
+        width: 11.5vw;
+        cursor: pointer;
+    }
+
+    #DepositButton {
+        position: absolute;
+        top: 5.9vh;
+        left:30%;
+        width: 14.2vw;
+        cursor: pointer;
+    }
+
+    .spinner {
+        position: absolute;
+        top: calc(50% - 15em);
+        left: calc(50% - 15em);
+    }
+
+    .spinner {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        border: 16px solid #2196f3;
+        border-radius: 50%;
+        border-top: 16px solid #18191a;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<body>
+
+    <div class="Bank-info flex_align_justify">
+        <div class="tc_wrapper">
+            <div class="table_list">
+                <img src="NFLogo.png" style="position:relative; width:80%; right: -5%;">
+                <div style="background: purple; color: white; height: 5vw; margin-bottom: 0; padding-bottom: 0;">
+                <h1 id="Playername" style="position: relative; top: 2.0vh; text-align: center; color: black; font-size: 16px;"></p>
+                    <p id="date" style="position: relative; top: 3.5vh; right: 5vw; color: black; font-size: 16px;"></p>
+                    <p id="time" style="position:relative; top: -0.7vh; left: 1vw; color: black; font-size: 16px;"></p>
+                </div>
+                <ul>
+                    <li data-tc="tabe_table_1" class="active"><i class="fa-solid fa-list-check"></i> Manage account</li>
+                    <li data-tc="tabe_table_2"><i class="fa-solid fa-circle-plus"></i> Create a new bank</li>
+                </ul>
+            </div>
+            <div class="table_content">
+                <div class="tables_header">
+                    <button class="close" style="cursor: pointer; position:absolute; left: 94%; top: 1%; width: 39px; background: purple; font-size: 25px; font-weight: 600; text-align: center; border-radius: 50%;">x</button>
+                </div>
+                <div class="tables_body">
+                    <div style="display: none;" class="table_item table_item_1">
+                        <div style="min-width: 100px;  background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px; color: crimson; transition: 0.5s; margin-left: 0;">
+                            <p id="balance" style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 15px; text-align: center;"></p>
+                            <p id="importantName" style="position: relative; color: white; top: -1.7vh; right: 11px; font-size: 15px; text-align: center;"></p>
+                            <p id="CIDFrombank" style="position: relative; color: white; font-weight: 500; top: -1.7vh; right: 11px; font-size: 15px; text-align: center;"></p>
+                            <i class="fa-solid fa-right-from-bracket" style="float: right; cursor: cell; color:  white; background: rgba(138, 50, 50, 1);"></i>
+                        </div>
+                        <!-- Deposit -->
+                        <div style="display: flex; min-width: 100px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px; color: crimson; transition: 0.5s; margin-left: 0;">
+                            <div style="background: #555; width: 15em; height: 3em; margin-left: 25px;">
+                                <div style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align: right;">balance</div>
+                                <p id="balance" style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align:right;"></p>
+                                <i class="active-logo" style="position:relative; top: -5.9%; left: 2.2%; width: 2vw; height: 2vw; border: 2px solid transparent; box-shadow: 0 0 0 2px #ccc; border-radius: 0;"></i>
+                            </div>
+                            <!-- Personal balance change -->
+                            <div style="background: #555; width: 15em; height: 3em; margin-left: 25px;">
+                                <div style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align: center;">personal balance change</div>
+                                <p id="Charge" style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align:center;"></p>
+                                <i class="active-logo" style="position:relative; top: -5.9%; left: 2.2%; width: 2vw; height: 2vw; border: 2px solid transparent; box-shadow: 0 0 0 2px #ccc; border-radius: 0; ;"></i>   
+                            </div>
+                            <!-- Personal Income -->
+                            <div style="background: #555; width: 15em; height: 3em; margin-left: 25px;">
+                                <div style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align: center;">personal income</div>
+                                <p id="income" style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align:center;"></p>
+                                <i class="active-logo" style="position:relative; top: -5.9%; left: 2.2%; width: 2vw; height: 2vw; border: 2px solid transparent; box-shadow: 0 0 0 2px #ccc; border-radius: 0;"></i>   
+                            </div>
+                            <!-- Period cost -->
+                            <div style="background: #555; width: 15em; height: 3em; margin-left: 25px;">
+                                <div style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align: center;">personal cost</div>
+                                <div id="Personalcost" style="position: relative; color: white; top: 5.9%; right: 2.2%; font-size: 11px; text-align:center;"></div>
+                                <i class="active-logo" style="position:relative; top: -5.9%; left: 2.2%; width: 2vw; height: 2vw; border: 2px solid transparent; box-shadow: 0 0 0 2px #ccc; border-radius: 0;"></i>   
+                            </div>
+                        </div>
+
+                        <div class="customoption" style=" background: #555; width: 85vh; height: 15vw; left: 14vw; position:absolute;">
+                            <div>
+                                <input id="Dposit" style="position: absolute; width: 12vw; top: 3vh; left: 1%; color: black; background: white; text-align: center;" class="input" placeholder="AMMOUNT"><!--  -->
+                                <button id="DepositButton" class="input" form="atm"><i class="fas fa-exchange-alt"></i></button>
+                            </div>
+                            <div>
+                                <input id="Withdraw" style="position: absolute; width: 14.2vw; top: 3vh; left: 30%; color: black; background: white; text-align: center;" class="input" placeholder="AMMOUNT"> <!--  -->
+                                <button id="WithdrawButton" class="input" form="atm"><i class="fas fa-coins"></i></button>
+                            </div>
+                            <div>
+                                <input id="Transfaer" style="position: absolute; width: 14.2vw; top: 3vh; left: 65%; color: black; background: white; text-align: center;" class="input" placeholder="AMMOUNT"> <!--  -->
+                                <button id="transferButton" class="input" form="atm"><i class="fas fa-credit-card"></i></button> 
+                            </div>
+                            <div>
+                                <input type="text" id="TragetID" style="position: absolute; width: 41.4vw; top: 10vh; left: 1%; color: black; background: white; text-align: center;" class="input" placeholder="id">
+                            </div>
+                            <div style="background: transparent; display: flex; position: relative; padding: 10px; justify-content: space-between;  top: 69%;">
+                                <button class="confirmDecline" style="width: 20vh; background: green; height: 1.5vw; margin-left: -7px; color: white;cursor: pointer;">Cancel</button>
+                                <button class="confirmtransactions" style="width: 20vh; background: green; height: 1.5vw; margin-left:6px; color: white; cursor: pointer;">confirm</button>
+                            </div>
+                            <div class="spinner" style="display: none;"></div>
+                        </div>
+
+                        <!-- End of main page -->
+
+                        <!-- Start of popup's -->
+
+                        <!-- confirm Delet Button -->
+                        <div id="confirmButton" style="width: 28em; height: 5vw; background: green; position: absolute; top: 0.5vw; left: 14vw;">
+                            <p style="text-align: center;">Are you sure you want to perform this action?</p>
+                            <div style="background: transparent; display: flex; position: absolute; padding: 5px; justify-content: space-between; top: 49%; left: 20%;">
+                                <button class="KeepAccount" style="width: 20vh; background: green; height: 1.5vw; margin-left: 52px; color: white; cursor: pointer;">Cancel</button>
+                                <button class="PoofAccount" style="width: 20vh; background: green; height: 1.5vw; margin-left:6px; color: white; cursor: pointer;">confirm</button>
+                            </div>
+                        </div>
+                        <div id="Successful" style="width: 20em; height: 5em; background: green; position: absolute; top: 0.5vw; right: 11vw;">
+                            <P style="text-align: center;">Transaction Successful</P>
+                        </div>
+                        <div id="Failed" style="position: absolute; width: 20em; height: 5em; background: green; top: 0.5vw; right: 15vw;">
+                            <P style="text-align: center;">Transaction Failed</P>
+                            <P style="text-align: center;">Account was not deleted</P>
+                        </div>
+                        <div id="Deleted" style="position: absolute; width: 20em; height: 5em; background: green; top: 0.5vw; right: 15vw;">
+                            <p style="text-align: center;">Account information as been permently been deleted</p>
+                            <P style="text-align: center;">Account Successful Deleted</P>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="custom.js" defer></script>
+    <script src="customATM.js"></script>
+</body>
+
+
+</html>

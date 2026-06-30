@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <title>Changing room</title>
+</head>
+
+<body>
+    <style>
+        @import url('https://use.fontawesome.com/releases/v7.1.2/css/all.css');
+
+        * {
+            overflow: hidden;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(2, 2, 2, 0);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 99, 99, 0.575);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgb(128, 128, 128);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(2, 2, 2, 0);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgb(128, 128, 128);
+
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 0, 0, 0.575);
+
+            border-radius: 10px;
+        }
+
+        .box label {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .box .label-line {
+            transform: translateY(-15px);
+        }
+
+        .box button:active {
+            background: white;
+        }
+
+        .box button {
+            width: 37px;
+            height: 37px;
+            background: padding-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid #777;
+            cursor: cell;
+        }
+
+        .box input {
+            width: 60px;
+            padding: 5px 10px;
+            border: 5px solid #777;
+            border-radius: 5px;
+            font-size: 22px;
+            margin: 0 10px;
+        }
+
+        .fa-solid {
+            text-align: center;
+            font-size: 15px;
+            float: left;
+        }
+
+        .flex_align_justify {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .Changing {
+            min-height: 100vh;
+            padding: 0 20px;
+        }
+
+        .tac_wrapper {
+            width: 900px;
+            height: 550px;
+            background: #7777;
+            display: flex;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .tac_wrapper .table_list {
+            width: 200px;
+            background: #555;
+            height: 100%;
+        }
+
+        .tac_wrapper .table_content {
+            width: calc(100% - 200px);
+            padding: 0 10px 20px;
+            height: 100%;
+        }
+
+        .tac_wrapper .table_content .tables_header {
+            color: crimson;
+            padding: 25px 0;
+            height: 70px;
+        }
+
+        .tac_wrapper .table_content .tables_header {
+            text-align: center;
+        }
+
+        .tac_wrapper .table_content .tables_body {
+            height: calc(100% - 140px);
+            overflow: auto;
+        }
+
+        .tac_wrapper .table_list ul {
+            padding: 70px 20px;
+            text-align: right;
+        }
+
+        .tac_wrapper .table_list ul li {
+            padding: 10px 0;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 30px;
+            font-weight: bold;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .tac_wrapper .table_list ul li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -20px;
+            width: 2px;
+            height: 100%;
+            background: purple;
+            opacity: 0;
+            transition: all 0.5 ease-in-out;
+        }
+
+        .tac_wrapper .table_list ul li.active,
+        .tac_wrapper .table_list ul li:hover {
+            color: aqua;
+        }
+
+        .tac_wrapper .table_list ul li.active::before {
+            opacity: 1;
+        }
+
+        .tac_wrapper .table_content .tables_body .table_item h3 {
+            padding-top: 10px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .tac_wrapper .table_content .tables_body .table_item p {
+            margin-bottom: 2px;
+        }
+
+        .tac_wrapper .table_content .tables_body .table_item.active {
+            display: block !important;
+        }
+
+        span {
+            color: red;
+        }
+
+        p {
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+    </style>
+    
+
+    <button class="Changingroom-name-button" id="Changingroom-button" style="margin-left: 15.5px; background: #555; border-radius: 25px; border: 11px solid rgb(128, 128, 128); color: white; padding: 10px; position: absolute; cursor: cell; width: 33em; height: 5em; top: calc(50% - -5em); left: calc(50% - 15em);"></button>
+
+    <div class="Changing flex_align_justify">
+        <div class="tac_wrapper">
+            <div style="position:absolute; width: 320px; height: 5%; background: #5555; font-size: 32px; display: flex; justify-content: center; align-items: center; top: calc(50% - 9.7em); left: calc(50% - 14em)"> 
+                <ion-icon name="chevron-up-circle-sharp" style="cursor: cell;"></ion-icon>
+                <ion-icon name="chevron-down-circle" style="cursor: cell;"></ion-icon>
+                <ion-icon name="chevron-back-circle" style="cursor: cell;"></ion-icon>
+                <ion-icon name="chevron-forward-circle" style="cursor: cell;"></ion-icon>
+                <ion-icon name="arrow-redo-circle-sharp"></ion-icon>
+                <ion-icon name="arrow-undo-circle-sharp" style="cursor: cell;"></ion-icon>
+                <ion-icon name="add-circle" style="cursor: cell;"></ion-icon>
+                <ion-icon name="remove-circle" style="cursor: cell;"></ion-icon>
+            </div>
+            <div class="table_list">
+                <ul>
+                    <li data-tac="table_item_1">Accessories</li> <!-- Accessories-->
+                    <li data-tac="table_item_2">underwear</li> <!-- Underwear-->
+                    <li data-tac="table_item_3">job outfit</li> <!-- Job outfit-->
+                    <li data-tac="table_item_4">Cloths</li> <!-- Cloths-->
+                    <li data-tac="table_item_5">Outfits</li> <!-- Outfits-->
+                </ul>
+            </div>
+            <div class="table_content">
+                <div class="tables_header">
+                    <div class="close" style="cursor: pointer; position:absolute; color: purple; border: 5px solid purple; border-radius: 50px; font-weight: bolder; right: 550px;">x</div>
+                    <h2> Look through all the lockers</h2>
+                </div>
+                <div class="tables_body">
+                    <div style="display: none; overflow-y: scroll;" class="table_item table_item_1">
+                        <div  style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">T-shirt</label>
+                            <div class="box" style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div
+                            style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <!-- Flot left -->
+                            <label class="label-line">Jaket</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <!-- Flot left -->
+                            <label class="label-line">Arms</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Vest</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Bags</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Pants</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Shoes</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: none; overflow-y: scroll;" class="table_item table_item_2">
+                        <!-- New same area of code -->
+                         <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Masks</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Hats</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Glasses</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Ear Accessory</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Watches</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Brascelets</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Accessories</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:none; overflow-y: scroll;" class="table_item table_item_3">
+                        <button class="createJob" style="background: green; height: 50px; width:100%; border: 0;  border-radius: 6px; font-size: 15px; font-weight: 500; transition: 0.3 linear;cursor: pointer;"><i class="fa fa-plus-circle"></i>Create job outfits</button>
+                        <!-- Accessable area -->
+                        <div class="acces" style="display: none; overflow-y: scroll; margin-top: 15px;">
+                            <div  style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">T-shirt</label>
+                                <div class="box" style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <!-- New same area of code -->
+                            <div
+                                style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <!-- Flot left -->
+                                <label class="label-line">Jaket</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <!-- New same area of code -->
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <!-- Flot left -->
+                                <label class="label-line">Arms</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <!-- New same area of code -->
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Vest</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <!-- New same area of code -->
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Bags</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <!-- New same area of code -->
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Pants</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <!-- New same area of code -->
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Shoes</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <!-- New same area of code -->
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Masks</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <!-- New same area of code -->
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Hats</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <!-- New same area of code -->
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Glasses</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Ear Accessory</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Watches</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Brascelets</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                            <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                                <label class="label-line">Accessories</label>
+                                <div class="box"
+                                    style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                    <div style="margin-left: 25px;"></div>
+                                    <button class="dec button">&minus;</button>
+                                    <input id="1" value="0" class="input field">
+                                    <button class="inc button">&plus;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="updateprferences" style="border:5px solid purple; background: darkblue; color: white; position: relative; width: 34.5em; height: 8.5em; top: calc(50% - 9em); left: calc(50% - 18em);">
+                            <button class="setPreset" style="background: #2f3133; border: 2px solid #555; width: 40vw; height: 5vh; text-align: center; color: white;">Set outfit</button>
+                            <button class="Update" style="background: #2f3133; border: 2px solid #555; width: 40vw; height: 5vh; text-align: center; color: white;">Update</button>
+                            <button class="changeOutfit" style="background: #2f3133; border: 2px solid #555; width: 40vw; height: 5vh; text-align: center; color: white;">Change</button>
+                            <button class="deleteOutfit" style="background: #2f3133; border: 2px solid #555; width: 40vw; height: 5vh; text-align: center; color: white;">Delete</button>
+                        </div>
+                    </div>
+                    <div style="display:none; overflow-y: scroll;" class="table_item table_item_4">
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">T-shirt</label>
+                            <div class="box" style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div
+                            style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <!-- Flot left -->
+                            <label class="label-line">Jaket</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <!-- Flot left -->
+                            <label class="label-line">Arms</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Vest</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Bags</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Pants</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Shoes</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Masks</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Hats</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <!-- New same area of code -->
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Glasses</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Ear Accessory</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Watches</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Brascelets</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                        <div style="position: relative; min-width: 500px; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;">
+                            <label class="label-line">Accessories</label>
+                            <div class="box"
+                                style="background: transparent; width: 465px; display: flex; align-items: center; justify-content: center; padding: 20px 0; border-radius: 5px; border: 5px solid #777; box-shadow: 5px 2px rgb(128, 128, 128);">
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                                <div style="margin-left: 25px;"></div>
+                                <button class="dec button">&minus;</button>
+                                <input id="1" value="0" class="input field">
+                                <button class="inc button">&plus;</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:none; overflow-y: scroll;" class="table_item table_item_5">
+                        <div style="margin-left: 15.5px; background: #555; border-radius: 25px; border: 11px solid rgb(128, 128, 128); color: white; padding: 10px; position: absolute; cursor: cell; width: 41em; height: 25em; top: calc(50% - 10em); left: calc(50% - 15em);">
+                            <div id="Savedoutfits" style="background: transparent; border: 2px solid #555;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="Changingroom.js" defer></script>
+    <script>
+        const tab_lists = document.querySelectorAll(".table_list ul li");
+        const tab_items = document.querySelectorAll(".table_item");
+        
+        tab_lists.forEach(function (list) {
+            
+            list.addEventListener("click", function () {
+                
+                const tab_data = list.getAttribute("data-tac");
+                
+                // Remove 'active' class from all tabs and add to the clicked tab
+                tab_lists.forEach(function (list) {
+                    list.classList.remove("active");
+                });
+                list.classList.add("active");
+                // Show the matching tab and hide others
+                tab_items.forEach(function (item) {
+                    const tab_class = item.getAttribute("class").split(" ");
+                    if (tab_class.includes(tab_data)) {
+                        item.style.display = "block"; // Show the matched tab
+                    } else {
+                        item.style.display = "none"; // Hide other tabs
+                    }
+                })
+
+                $(document).on("click", ".createJob", function(){
+                    $(".acces").fadeIn();
+                });
+
+                $(document).on("click", ".setPreset", function(){
+                    $.post(`https://Changingroom/Setpreset`, JSON.stringify({}))
+                });
+                
+                $(document).on("click", ".Update", function(){
+                    $.post(`https://Changingroom/Update`, JSON.stringify({}))
+                });
+
+                $(document).on("click", ".changeOutfit", function(){
+                    $.post(`https://Changingroom/change`, JSON.stringify({}))
+                });
+
+                $(document).on("click", ".deleteOutfit", function(){
+                    $.post(`https://Changingroom/Delete`, JSON.stringify({}))
+                });
+
+                $(document).on('click', '.inc', function() {
+                    var currentFee = parseInt($(this).siblings('.field').val()); // Get current fee
+                    if(isNaN(currentFee)) {
+                        currentFee = 0;
+                    }
+                    var newFee = currentFee + 1; // Increment fee
+                    $(this).siblings('.field').val(newFee); // Update the displayed number
+                });
+                // Handle minus button click
+                $(document).on('click', '.dec', function() {
+                    var currentFee = parseInt($(this).siblings('.field').val()); // Get current fee
+                    if(isNaN(currentFee) || currentFee <= 0) {
+                        currentFee = 0;
+                    } 
+                    var newFee = currentFee - 1; // Decrement fee
+                    $(this).siblings('.field').val(newFee); // Update the displayed number
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

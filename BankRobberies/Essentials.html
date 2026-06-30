@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <title>Bank Robberies</title>
+</head>
+<body>
+    <style>
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .RandomSequence button {
+            padding: '10px';
+            margin: '3px';
+            cursor: 'pointer';
+            border: '2px solid grey';
+            background: 'drakblue';
+            color: 'black';
+        }
+
+        .RandomSequence button:active {
+            background: darkblue;
+        }
+
+    </style>
+    <button id="BanksRobberies" style="margin: 15px; border: 5px solid grey; width: 35em; height: 3em; position: absolute; background: gray; top: calc(50% - -19em); left: calc(50% - 20em); text-align: center; font-weight: 600;">Start Decryption for <p id="BankName">Bank Robbery</p></button>
+    <div class="outerlayer" style="display: none; margin: 15px; border: 5px solid grey; width: 25em; height: 13em; position: absolute; background: gray; top: calc(50% - 5em); left: calc(50% - 15em);">
+        <h5 style="display: flex; background: transparent; color: white; text-align: center;"> Decrypted Sequence: <p style="padding-left: 5px;" id="Sequencestext"></p></h5>
+        <h5 style="display: flex; background: transparent; color: white; text-align: center;"> Decrypted Sequence: <span style="padding-left: 5px;" id="Sequencesspan"></span></h5>
+        <section><div style="margin-top: 5.5%;"><div class="RandomSequence"></div></div></section>
+        <div id="B_outerdiv" style="margin-top: 5.5%; background: rgba(0, 0, 0, 5); width: 100%; height: 20px; z-index: 1; position: relative;">
+            <div id="B_innerdiv" style="background: rgba(0, 161, 255, 5); z-index: 2; height: 100%; width: 0%;"></div>
+            <div id="B_innertext" style="color: white; z-index: 3; position: absolute; top: 0; left: 0; width: 100%; height: 100%; font-weight: bold; text-align: center;">0%</div>
+        </div>
+    </div>
+    <div class="outerlayer2" style="display: none; margin: 15px; border: 5px solid grey; width: 30em; height: 7em; position: absolute; background: gray; top: calc(50% - 5em); left: calc(50% - 20em); text-align: center;">
+        <p>Pick the randomnized numbers</p>
+        <section><div class="RandomSequence"></div></section>
+    </div>
+
+    <script>
+
+        $(document).ready(()=> {
+            const element = {
+                outerlayer: $(".outerlayer"),
+                Robberies: $("#BanksRobberies")
+            }
+
+            function setvisible(ele, state) { 
+                state ? ele.fadeIn() : ele.fadeOut()
+            }
+
+            setvisible(element.outerlayer, false)
+            setvisible(element.Robberies, false)
+       
+            window.addEventListener("message", function(event) {
+              setvisible(element.Robberies, true)
+                const item = event.data;
+                if(item === "BillThis") {
+                    if(item.visible){
+                        $("#BankName").text(item.bankname);
+                        setvisible(element.Robberies, true)
+                    } else {
+                        setvisible(element.Robberies, false)
+                    }
+                }
+            })
+
+            // I want "Sequencestext" are TO be randomly highted and when the corect number for "RandomSequencenumber" is click it show success veriable
+
+            const targetedSequences = Array.from({length: 19}, (_, i) => i);
+            
+            const RandomSequencenumber = Array.from({ length: 101 }, (_, i) => i);
+
+            RandomSequencenumber.forEach(number => {
+                const button = document.createElement('button');
+                button.innerText = number;
+
+                $(".RandomSequence").append(button);
+            });
+            
+            $(document).on("click", "#BanksRobberies", (event)=> {
+                $(".outerlayer").show()
+                $("#Sequencestext").text(targetedSequences.join(" "))
+
+                const item = event.data;
+                var start = new Date();
+                var maxTime = Math.random() * 8000;
+                var text = `currently sequencing` || ` Analsing Addtional connection.. ` || ` Looking beyound the scope `;
+                
+                animateupdates();
+                
+                $("#B_innertext").text(text);
+                
+                function updateProgress(percentage) {
+                    $("#B_innerdiv").css("width", percentage + "%")
+                }
+                
+                function animateupdates() {
+                    var now = new Date()
+                    var timeDiff = now.getTime() - start.getTime();
+                    var perc = Math.round((timeDiff/maxTime) * 100);
+                    var timeoutVal = Math.floor(maxTime / 100)
+                    
+                    if(perc <= 100) {
+                        updateProgress(perc);
+                        setTimeout(animateupdates, timeoutVal)
+                    } else {
+                        $("#B_outerdiv").fadeOut();
+                        $(".outerlayer").fadeOut(8000);
+                        $(".outerlayer2").fadeIn(8000);
+                    }
+                }
+            });
+            
+            function Sequencesspan() { 
+                const span = document.getElementById("Sequencesspan");
+                
+                // Check if the selected numbers match the targeted sequence exactly
+                const selectedNumbers = $(".RandomSequence button.selected").map(function() {
+                    return parseInt($(this).text(), 10);
+                }).get();
+                // Compare with the target sequence (order matters)
+        
+                const isMatch = JSON.stringify(selectedNumbers) === JSON.stringify(targetedSequences);
+                
+                if (isMatch) {
+                    span.style.color = 'green';
+                    span.textContent = 'Sequences match';
+                } else {
+                    span.style.color = 'red';
+                    span.textContent = 'Sequences failed';
+                }
+            }
+            
+            $(document).on("click", ".RandomSequence button", function() {
+                $(this).toggleClass("selected");
+
+                if ($(this).hasClass("selected")) {
+                    $(this).css({
+                        "background-color": "purple",
+                        "color": "white",
+                        "box-shadow": "0 0 10px purple"
+                    });
+                } else {
+                    $(this).css({
+                        "background-color": "", // Reset to default style
+                        "color": "black",
+                        "box-shadow": "none"
+                    })
+                }
+                // Run the sequence check after every click
+                Sequencesspan();
+            });
+ });
+    </script>
+</body>
+</html>
