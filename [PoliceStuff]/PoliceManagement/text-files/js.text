@@ -1,0 +1,10 @@
+    $("#Update").click(() => {
+        $.post("https://PoliceManagement/NewEmployees", JSON.stringify({
+            Callsign: $("#id").val(),
+            Sub: $(".Sub").val(),
+            LSPD: $(".LSPD").val(),
+            BCSO: $(".BCSO").val(),
+            Trooper: $(".Trooper").val(),
+            Serts: $("#others").val(),
+        }))
+    })

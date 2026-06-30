@@ -1,0 +1,92 @@
+
+local playerPed = PlayerPedId()
+local jobTargetDistance = 5
+local Jobdisplay = false
+
+
+local playerCoords = GetEntityCoords(PlayerPedId())
+for _, player in pairs(GetActivePlayers()) do
+    local targetPed = GetPlayerPed(player)
+    local targetId = GetPlayerServerId(player)
+    local distance = #(playerCoords-GetEntityCoords(targetPed))
+    if targetPed ~= playerPed then
+        if distance <= jobTargetDistance then
+    end
+end
+
+
+window.addEventListener("input", {
+    function(source, callback) {
+        if (typeof source == 'string') return source;
+        if (!GetPlayerName(source)) return false;
+        let arr = []
+        for (let index = 0; index <= GetActivePlayers(source); index++) {
+            if (GetPlayerPed(source, index)) {
+                arr.push(GetPlayerPed(source, index))
+                console.log(source, index)
+            } else if (!GetPlayerPed(source)) {
+                console.log(callback)
+            }
+        }
+    }
+})
+
+If info displayed and clicked, 
+it will bring up a the indivdual name and info about the officer at hand.
+
+Orgrnized info when displaydd
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width-device-width, initial-scale=1.0">
+</head>
+
+        <option></option>
+        <option> Los Santos Police Departmet</option>
+        <option> Blane County Sheriff Office</option>
+        <option> San Andreas State Police</option>
+      </select>
+      <label>Change Dispatch Position</label>
+      <select>
+        <option></option>
+        <option> Dispatch in training</option>
+        <option> Dispatch not in tarining</option>
+      </select>
+      <label>Change LSPD Rank</label>
+      <select>
+        <option></option>
+        <option> Officer</option>
+        <option> Senior Officer</option>
+        <option> Corporal</option>
+        <option> Lieutenant</option>
+        <option> Supervisor</option>
+        <option> Chief</option>
+      </select>
+      <label>Change BCSO Rank</label>
+      <select>
+        <option></option>
+        <option> Deputy</option>
+        <option> Senior Deputy</option>
+        <option> Corporal</option>
+        <option> Lieutenant</option>
+        <option> Supervisor</option>
+        <option> Chief</option>
+      </select>
+      <label>Change Trooper Rank</label>
+      <select>
+        <option></option>
+        <option> Trooper</option>
+        <option> Senior Trooper</option>
+        <option> Corporal</option>
+        <option>Sargent</option>
+        <option> Lieutenant</option>
+        <option> Supervisor</option>
+        <option> Chief</option>
+      </select>
+</body>
+
+</html>

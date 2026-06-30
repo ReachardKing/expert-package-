@@ -1,0 +1,38 @@
+async function SpawnAllPed() {
+    if (NetworkIsSessionStarted()) {
+        ped = GetHashKey("s_m_y_cop_01")
+        RequestModel(ped)
+
+        while (!HasModelLoaded(ped)) {
+            await Delay(10)
+        }
+
+        const coords = [
+            [x = -458.33, y = 6031.84, z= 31.49], [ x = 459.27, y = -1007.7, z = 28.26], // MRPD
+            [x = 458.009, y = -1017.29, z = 28.26], // Paleto Station
+            [x = 1853.19, y = 3689.14, z = 34.27], // Sandy Shores
+            [x = 864.89, y = -1337.49, z = 26.03], // La mesa Police Department
+            [x = -1125.53, y = -832.96, z = 13.37], // Vine Wood
+            [x = 535.85, y = -21.64, z= 70.63], // Vespuccci
+            [x = 454.07, y = -980.03, z = 30.69], // RockFord PD
+            [x = 0, y = 0, z = 0], // 
+            [x = 0, y = 0, z = 0], // 
+        ]
+
+        const ped = await CreatePed(26, ped, coords.x, coords.y, coords.z, GetEnityHeading(ped), false, true)
+        SetEntityInvincible(ped, true)
+        loadAnim("anim@amb@nightclub@peds@")
+        TaskPlaySenerioInPlace(ped, "anim@amb@nightclub@peds@", "rcmme_amanda1_stand_loop_cop", GetEntityCoords(ped, true), 0, 0, GetEnityHeading(ped), 8.0, 3.0, -1, 50, 100.01, 0, 0);
+        SetBlockingOfNonTemporaryEvents(ped, true)
+        Wait(800)
+        FreezeEntityPosition(ped, true) 
+        toggleVisible(true)
+    }
+}
+
+async function loadAnim(dict) {
+    while (!HasModelLoaded(dict)) {
+        RequestAnimDict(dict)
+        await Delay(10)
+    }
+} 

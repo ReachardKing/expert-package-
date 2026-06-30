@@ -1,0 +1,7 @@
+            Callsign: $("#id").remove(),
+            Job: $(".JOB").remove(),
+            Sub: $(".Sub").remove(),
+            LSPD: $(".LSPD").remove(),
+            BCSO: $(".BCSO").remove(),
+            Trooper: $(".Trooper").remove(),
+            Serts: $("#others").remove(),

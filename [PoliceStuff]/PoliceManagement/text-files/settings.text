@@ -1,0 +1,55 @@
+Removed script
+  <div class="Settings-main">
+    <form class="Settings-body">
+     <button class="close">&minus;</button>
+      <p>Police Employee Management Settings</p>
+      <P>This is for Admin +</P>
+      <hr>
+      <label>Change callsign</label>
+      <input class="callsign" placeholder="CallSign" min="1" max="1000">
+      <br><br>
+      <label>Change Sub Position</label>
+      <input class="Sub" type="text" placeholder="Please Enter A Subsection." />
+      <br><br>
+      <label>Change LSPD Rank</label>
+      <input class="LSPD" type="text" placeholder="Please Enter LSPD Rank." />
+      <br /><label>Change BCSO Rank</label>
+      <input id="options" class="BCSO" type="text" placeholder="Please Enter BCSO Rank." />
+      <br />
+      <label>Change TROOPER Rank</label>
+      <input class="Trooper" type="text" placeholder="Please Enter TROOPER Rank." />
+      <br /><label>Add a new Sert</label>
+      <!-- Serts eg air, intersepter and the rest-->
+      <textarea class="Serts" id="others" placeholder="Serts" cols="10" rows="10"></textarea>
+      <br>
+      <div class="button">
+        <button type="submit" class="Submit" id="Save">Save</button>
+        <button class="Cancel">close</button>
+      </div>
+    </form>
+  </div>
+          $(`.Settings-main${id}`).click(()=>{
+            $("#id").val(Callsign);
+            $(".Sub").val(Sub);
+            $(".LSPD").val(LSPD);
+            $(".BCSO").val(BCSO);
+            $(".Trooper").val(Trooper);
+            $("#others").val(Serts);
+            $(".Date").val(Date);
+        })
+    if (item !== undefined && item.action === 'Set') {
+      if (item.visible == true) {
+        Setting(true)
+      } else {
+        Setting(false)
+      }
+    } else if (item.action === "remove") {
+      $(".Settings-main").hide();
+    }
+  function Setting(bool) {
+    if (bool) {
+      $(".Settings-main").show();
+    } else {
+      $(".Settings-main").hide();
+    }
+  }

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v7.1.2/css/all.css">
+    <title>Police Management</title>
+</head>
+
+<style>
+    @import url('https://use.fontawesome.com/releases/v7.1.2/css/all.css');
+
+    * {
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        list-style: none;
+        text-transform: capitalize;
+    }
+
+    ::-webkit-scrollbar {
+        width: 15px;
+        background: black;
+    }
+
+    input[type="date"] {
+        background: #555;
+        color: white;
+        border: 2px solid crimson;
+        border-radius: 5px;
+        padding: 8px;
+        margin-left: 0.3vw;
+        font-size: 15px;
+    }
+
+    input[type="text"] {
+        width: inherit;
+        height: inherit;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: crimson;
+    }
+
+    .flex_align_justify {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .police-info {
+        min-height: 100vh;
+        padding: 0 20px;
+
+    }
+
+    .tc_wrapper {
+        width: 1408px; /* 1408px */
+        height: 550px; /* 816px */
+        background: #7777;
+        display: flex;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .tc_wrapper .table_list {
+        width: 200px;
+        background: #555;
+        height: 100%;
+    }
+
+    .tc_wrapper .table_content {
+        width: calc(100% - 200px);
+        padding: 0 10px 20px;
+        height: 100%;
+    }
+
+    .tables_header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: crimson;
+        padding: 15px 20px;
+    }
+
+    .tc_wrapper .table_content .tables_header,
+    .tc_wrapper .table_content .tables_header {
+        color: crimson;
+        padding: 25px 0;
+        height: 70px;
+    }
+
+    .tc_wrapper .table_content .tables_header {
+        text-align: center;
+    }
+
+    .tc_wrapper .table_content .tables_header .close {
+        cursor: pointer; position:relative; left: 90%; top: 1%; width: 39px; background: purple; font-size: 25px; font-weight: 600; text-align: center; border-radius: 50%;
+    }
+
+    .tc_wrapper .table_content .tables_body {
+        height: calc(100% - 140px);
+        overflow: auto;
+    }
+
+    .tc_wrapper .table_list ul {
+        padding: 70px 20px;
+        text-align: right;
+    }
+
+    .tc_wrapper .table_list ul li {
+        padding: 10px 0;
+        position: relative;
+        cursor: pointer;
+        margin-bottom: 30px;
+        font-weight: bold;
+        transition: all 0.5 ease-in-out;
+    }
+
+    .tc_wrapper .table_list ul li::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -20px;
+        width: 2px;
+        height: 100%;
+        background: red;
+        opacity: 0;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .tc_wrapper .table_list ul li.active,
+    .tc_wrapper .table_list ul li:hover {
+        color: aqua;
+    }
+
+    .tc_wrapper .table_list ul li.active::before {
+        opacity: 1;
+    }
+
+    .tc_wrapper .table_content .tables_body .table_item h2 {
+        padding-top: 10px;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .tc_wrapper .table_content .tables_body h1 {
+        font-size: 16px;
+    }
+
+    .tc_wrapper .table_content .tables_body  p {
+        font-size: 20px;
+        color: greenyellow;
+    }
+
+    .tc_wrapper .table_content .tables_body .table_item p {
+        margin-bottom: 2px;
+    }
+
+    .tc_wrapper .table_content .tables_body .table_item.active {
+        display: block !important;
+    }
+
+    span {
+        color: red;
+    }
+
+    p {
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+    }
+
+    .label-line {
+        position: absolute;
+        font-size: 15px;
+        color: white;
+        margin: 0 5px;
+    }
+
+    select {
+        display: flex;
+        width: 90%;
+        background: transparent;
+        font: 11px;
+        margin-bottom: 2vh;
+    }
+
+    select option {
+        background: black;
+        color: wheat;
+    }
+
+    .checkbox {
+        opacity: 0;
+        position: relative;
+    }
+
+    .label {
+        background: #555;
+        border-radius: 50px;
+        top: calc(50% - 0.7em);
+        left: calc(50% - 12em);
+        cursor: cell;
+        display: flex;
+        padding:5px;
+        position: absolute;
+        height: 20px;
+        width: 50px;
+        transform: scale(0.5);
+    }
+
+    .label .ball {
+        background: #3498db;
+        border-radius: 50%;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 22px;
+        height: 22px;
+        transform: translateX(0px);
+        transition: transform 0.2s linear;
+    }
+
+    .checkbox:checked + .label .ball {
+        transform: translateX(24px);
+    }
+
+    #manage-profile-View, #manage-profile-Edit {
+        position: fixed;
+        top: 38%;
+        bottom: 0;
+        left: 33%;
+        right: 0;
+        width: 48vw;
+        height: 45vh;
+        background: rgb(236, 19, 19);
+        opacity: 0.9;
+        z-index: 9999;
+        overflow-y: auto;
+    }
+
+    .popup-content {
+        background: #555;
+        margin: 15px auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 100%;
+        position: absolute;
+        text-align: center;
+        box-shadow: 0 4px 10px rgb(234, 166, 166);
+    }
+
+    .close-popup {
+        position: absolute;
+        top: 15px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    .management-close {
+    position: static;
+    cursor: pointer;
+    font-size: 25px;
+    font-weight: bold;
+    }
+
+    /* Grapth */
+    .chart-veiw {
+        position:relative;
+        width: 70vw;
+        height: 200px;
+        margin: 50px;
+        border-left: 5px solid crimson;
+        border-bottom:3px solid #23498d; 
+    }
+
+    .y-grid {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .y-grid div {
+      border-top: 1px solid #333;
+      height: 1px;
+    }
+    
+    .dot {
+        position: absolute;
+        width: 3%;
+        background-color: orange;
+        bottom: 0;
+        border-radius: 4px;
+    }
+
+    select option {
+        background: black;
+        color: wheat;
+    }
+</style>
+<script>
+    const time = new Date();
+    // Sorthorizontal-tb
+    function sortTable(columnIndex, tableId) {
+        // Select the table using the provided ID
+        let table = document.getElementById(tableId);
+        let rows = Array.from(table.rows).slice(1); // Skip the header row
+        let isAscending = table.getAttribute("data-sort-order") !== "asc"; // Toggle sorting order
+
+        // Set new sort order
+        table.setAttribute("data-sort-order", isAscending ? "asc" : "desc");
+
+        // Sort rows based on columnIndex
+        rows.sort((rowA, rowB) => {
+            let cellA = rowA.cells[columnIndex].textContent.trim();
+            let cellB = rowB.cells[columnIndex].textContent.trim();
+
+            // Detect if values are numbers for numerical sorting
+            let isNumeric = !isNaN(cellA) && !isNaN(cellB);
+            if (isNumeric) {
+                cellA = parseFloat(cellA);
+                cellB = parseFloat(cellB);
+            }
+
+            // Ascending/descending sorting
+            if (cellA < cellB) return isAscending ? -1 : 1;
+            if (cellA > cellB) return isAscending ? 1 : -1;
+            return 0;
+        });
+
+        // Reattach sorted rows to the table
+        rows.forEach(row => table.appendChild(row));
+    }
+
+    function filterTable() {
+        const inputfield = $(".sort-filter");
+        // Collect search content from all specified input fields
+        let searchContent = $(inputfield.join(","))
+            .map(function () {
+                return $(this).val().toLowerCase();
+            })
+            .get()
+            .join(" ")
+            .trim();
+
+        // Split searchContent into individual keywords for flexible matching
+        let searchTerms = searchContent.split(/\s+/);
+
+        // Apply filter to each row in the target table
+        $("table tr").each(function () {
+            $(".spinner").fadeIn();
+            setTimeout(() => {
+                $(".spinner").fadeOut();
+            }, 1000);
+            let rowText = $(this).text().toLowerCase(); // Collect all text from the row
+            let matchFound = searchTerms.every(term => rowText.includes(term)); // Ensure all terms match
+
+            // Toggle row visibility based on match
+            $(this).toggle(matchFound);
+        });
+    }
+</script>
+<body>
+    <div class="police-info flex_align_justify">
+        <div class="tc_wrapper">
+            <div class="table_list">
+                <div style="background:none; border: 5px solid crimson; padding: 12px 12px; margin: 20px; color: crimson; transition: 0.5; margin-left: 0;">
+                    <p id="PlayerName" style="background: purple; color: white; text-align: center;"></p>
+                    <p id="date" style="position: relative; top: 3.5vh; right: 5vw; color: black; font-size: 16px;"></p>
+                    <p id="time" style="position:relative; top: -0.7vh; left: 1vw; color: black; font-size: 16px;"></p>
+                    <P>Employee resource management</P>
+                </div>
+                <ul>
+                    <li data-tc="table_item_0" class="active">Hire new employee</li>
+                    <li data-tc="table_item_1">Manage Employee</li>
+                    <li data-tc="table_item_2">Employees management</li>
+                    <li data-tc="table_item_3">Activity status</li>
+                    <li data-tc="table_item_4">Manage callsigns</li>
+                </ul>
+            </div>
+            <div class="table_content">
+                <div class="tables_header">
+                    <h2> Law Enforcement Employment Management</h2>
+                    <div class="management-close">x</div>
+                </div>
+                <div class="tables_body">
+                    <div class="table_item table_item_none" style="display: none; gap: 10px;">
+                        <div style="width: 350px; height: 250px; background:transparent; border-top: 5px solid #3498db; border-bottom: 5px solid #3498db; color: white; display: flex; justify-content: center; align-items: center; border-radius: 8px; text-align: center;">
+                            <h1 style="color: green;">Current Job</h1>
+                            <p id="customJob"></p>
+                        </div>
+                        <div style="width: 450px; height: 250px; background:transparent; border-top: 5px solid #3498db; border-bottom: 5px solid darkviolet; color: white; display: flex; justify-content: center; align-items: center; border-radius: 8px; text-align: center;">
+                            <h1 style="color: green;">Employees Clocked On</h1>
+                            <p id="clockedOn"></p>
+                        </div>
+                        <div style="width: 450px; height: 250px; background:transparent; border-top: 5px solid #3498db; border-bottom: 5px solid #3498db; color: white; display: flex; justify-content: center; align-items: center; font-size: 18px; border-radius: 8px; text-align: center;">
+                            <h1 style="color: green;">Total Employees</h1>
+                            <p id="totalEmployees"></p>
+                        </div>
+                    </div>
+                    <div style="display: none;" class="table_item table_item_0">
+                        <form id="HireEmployees">
+                            <label>Employee first Name</label>
+                            <input type="text" style="background: transparent; color: white; width: 100%; margin-bottom: 10px;" placeholder="Enter first name" class="first-name" id="first-name">
+                            <label>Employee last Name</label>
+                            <input type="text" style="background: transparent; color: white; width: 100%; margin-bottom: 10px;" placeholder="Enter last name" class="last-name" id="last-name">
+                            <label>Employee Callsign</label>
+                            <input type="text" style="background: transparent; color: white; width: 100%; margin-bottom: 10px;" placeholder="Enter callsign" class="callsign" id="callsign">
+                        </form>
+                        <button style="width: 100%; height: 3vw; border: 5px solid green; background: darkblue;  color: white; cursor: pointer; margin-top: 5px;" id="Hirecurrentcandidate">Hire Employee</button>
+                        <p id="show-employee-Notification"></p>
+                    </div>
+                    <div style="display:none;" class="table_item table_item_1">
+                        <div class="Employee-management" style="margin-top: 10px; width: 450px; height: 250px; background:transparent; border-top: 5px solid #3498db; border-bottom: 5px solid #3498db; color: white; display: flex; justify-content: center; align-items: center; font-size: 18px; border-radius: 8px; text-align: center; position: absolute; top: calc(50% - 5em); left: calc(50% - 7em);"></div>
+                    </div>
+                    <div style="display: none;" class="table_item table_item_2">
+                        <button id="sort-filter" style="float: left; margin-left: 0.3vw; background: rgb(8, 252, 69); width: 8.6vw; height: 3vh; border-radius: 0.5vh; transition: 0.3s; cursor: pointer;" onclick="sortTable()"><i style="float: left;" class="fa-solid fa-sort"></i>Sort & firlter</button>
+                        <input type="text" style="background: transparent; color: white; float: right;" placeholder="Name, CSN, Grade, Dept" class="sort-filter" onkeyup="filterTable()">
+                        
+                        <div style="width: 50%; background: transparent; border: 2px solid crimson;padding: 12px; margin: 30px 0 30px 0; color: crimson; transition: 0.5s; display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items:center; gap: 20px;">
+                                <span id="callsign"></span><p id="PlayerName" style="border: transparent; color: white;"></p>
+                                <span id="rank"></span><span class="department_data"></span><h5 id="status"></h5>
+                            </div>
+                            <i class="manage-this-info-content fas fa-bars" style="float: right; cursor: cell;"></i>
+                        </div>
+                        
+                        <div class="manage-info-content" style="width: 30%; height: 17%; background: none; border: 2px solid crimson; padding: 12px 12px; margin: 20px;position: relative; left: 30%;">
+                            <button class="View-profile-content" style="width: 100%; border: 2px solid crimson; background: transparent; margin-bottom: 5px; cursor: cell;">View</button>
+                            <button class="Edit-profile-content" style="width: 100%; border: 2px solid crimson; background: transparent; padding-bottom: 5px; cursor: cell;">Edit</button>
+                        </div>
+                        <!-- manage-profile-View -->
+                        <div id="manage-profile-View">
+                            <div class="popup-content">
+                                <button class="close-popup">&times;</button>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px;">
+                                    <p style="color: white; text-align: left;">Employee Detailes</p>
+                                    <input type="date" style="background: transparent; color: white; float: right;">
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="background: transparent; border: 5px solid crimson; width: 35%; height: 22%;">
+                                        <span id="callsign"></span><p id="PlayerName" style="border: transparent; color: white;"></p>
+                                        <span id="rank"></span><span class="department_data"></span><h5 id="status"></h5><span id="position"></span>
+                                    </div>
+                                    <div style="width: 50%; background: transparent; border: 2px solid crimson; width: 35%; height: 30%;">
+                                        <h2>Last clock in</h2>
+                                        <h5 id="clockedOn"></h5>
+                                    </div>
+                                    <div style="width: 50%; background: transparent; border: 2px solid crimson; width: 35%; height: 30%;">
+                                        <h2 style="color: white;">Total hours</h2>
+                                        <h5 id="totalHours"></h5>
+                                    </div>
+                                </div> 
+                                <div style="margin-top: 10px;"></div>
+                                <select id="current_ranks">
+                                    <option></option>
+                                    <option>Officer / Torrper</option>
+                                    <option>Senior Officer / Trooper</option>
+                                    <option>Corporal</option>
+                                    <option>Sergeant</option>
+                                    <option>Lieutenant</option>
+                                    <option>Captain</option>
+                                    <option>Assistant / Deputy  Chief</option>
+                                    <option>Chief</option>
+                                </select>
+                                <select id="department">
+                                    <option></option>
+                                    <option id="rank">Park Ranger</option>
+                                    <option id="rank">Los Santos Police Department</option>
+                                    <option id="rank">Blain County Sheriff Office</option>
+                                    <option id="rank">San Andreas State Trooper</option>
+                                    <option id="rank">San Andreas Security Services</option>
+                                    <option id="rank">San Andreas Fire & Rescue</option>
+                                    <option id="rank">San Andreas Dispatch Department</option>
+                                </select>
+                                <select id="Selectcerts">
+                                    <option></option>
+                                    <option id="certs">Air Certification</option>
+                                    <option id="certs">Interseptor Certification</option>
+                                    <option id="certs">Motor Certification</option>
+                                    <option id="certs">SWAT Certification</option>
+                                    <option id="certs">Marin Certification</option>
+                                    <option id="certs">K-9</option>
+                                    <option id="certs">Air Certification, Interseptor Certification, Motor Certification, SWAT Certification, Field Taining Officer, K-9</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- manage-profile-Edit -->
+                        <div id="manage-profile-Edit">
+                            <div class="popup-content">
+                                <button class="close-popup">&times;</button>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px;">
+                                    <p style="color: white; text-align: left;">Employee Detailes</p>
+                                    <span id="PlayerName"></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="background: transparent; border: 5px solid crimson; width: 35%; height: 22%;">
+                                        <span id="callsign"></span><p id="PlayerName" style="border: transparent; color: white;"></p>
+                                        <span id="rank"></span><span class="department_data"></span><h5 id="status"></h5><span id="position"></span>
+                                    </div>
+                                    <div style="width: 50%; background: transparent; border: 2px solid crimson; width: 35%; height: 30%;">
+                                        <h2>Last clock in</h2>
+                                        <h5 id="clockedin"></h5>
+                                    </div>
+                                    <div style="width: 50%; background: transparent; border: 2px solid crimson; width: 35%; height: 30%;">
+                                        <h2 style="color: white;">Total hours</h2>
+                                        <h5 id="totalHours"></h5>
+                                    </div>
+                                </div> 
+                                <div style="margin-top: 10px;"></div>
+                                <select id="current_ranks">
+                                    <option></option>
+                                    <option>Officer / Torrper</option>
+                                    <option>Senior Officer / Trooper</option>
+                                    <option>Corporal</option>
+                                    <option>Sergeant</option>
+                                    <option>Lieutenant</option>
+                                    <option>Captain</option>
+                                    <option>Assistant / Deputy  Chief</option>
+                                    <option>Chief</option>
+                                </select>
+                                <select id="department">
+                                    <option></option>
+                                    <option id="rank" value="Park Ranger">Park Ranger</option>
+                                    <option id="rank" value="Los Santos Police Department">Los Santos Police Department</option>
+                                    <option id="rank" value="Blain County Sheriff Office">Blain County Sheriff Office</option>
+                                    <option id="rank" value="San Andreas State Trooper">San Andreas State Trooper</option>
+                                    <option id="rank" value="San Andreas Security Services">San Andreas Security Services</option>
+                                    <option id="rank" value="San Andreas Fire & Rescue">San Andreas Fire & Rescue</option>
+                                    <option id="rank" value="San Andreas Dispatch Department">San Andreas Dispatch Department</option>
+                                </select>
+                                <select id="Selectcerts">
+                                    <option></option>
+                                    <option id="certs" value="Air Certification">Air Certification</option>
+                                    <option id="certs" value="Interseptor Certification">Interseptor Certification</option>
+                                    <option id="certs" value="Motor Certification">Motor Certification</option>
+                                    <option id="certs" value="SWAT Certification">SWAT Certification</option>
+                                    <option id="certs" value="Marin Certification">Marin Certification</option>
+                                    <option id="certs" value="K-9">K-9</option>
+                                    <option id="certs" value="Air Certification, Interseptor Certification, Motor Certification, SWAT Certification, Field Taining Officer, K-9">Air Certification, Interseptor Certification, Motor Certification, SWAT Certification, Field Taining Officer, K-9</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                   <div style="display: none;" class="table_item table_item_3">
+                        <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                            <input type="date" style="background: transparent; color: white; margin-bottom: 10px;">
+                            <button class="show-view" style="background: transparent; margin-left: 0.3vw; width: 8.6vw; height: 3vh; border-radius: 0.5vh; transition: 0.3s; cursor: pointer;">chart view</button>
+                            <button class="show-list" style="background: transparent; margin-left: 0.3vw; width: 8.6vw; height: 3vh; border-radius: 0.5vh; transition: 0.3s; cursor: pointer;">list view</button>
+                        </div>
+                       <div class="chart-veiw">
+                            <div class="y-grid">
+                                <div></div><div></div><div></div><div></div><div></div>
+                                <div></div><div></div><div></div><div></div><div></div>
+                            </div>
+                            <div class="dot dot1"></div>
+                            <div class="dot dot2"></div>
+                            <div class="x-label" style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); color: red; font-size: 14px;">Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sep | Oct | Nov | Dec</div>
+                            <div class="y-label" style="position: absolute; top: 10%; left: -50px; text-align: right; color: red;">100<br>80<br>60<br>40<br>20<br>0</div>
+                        </div>
+                       <div class="list-view" style=" display:none;  width:100%; margin-top:20px; border:2px solid crimson;  border-radius:8px; overflow:hidden;">
+                            <div style=" display:grid; grid-template-columns:1fr 1fr 1fr 1fr; background:#222; padding:10px; color:crimson; font-weight:bold; text-align:center; border-bottom:2px solid crimson;"><div>Employee</div>
+                                <div>Department</div>
+                                <div>Status</div>
+                                <div>Hours</div>
+                            </div>
+                        </div>
+                        <div id="activity-list-container"></div>
+                    </div>
+                    
+                    <div style="display: none;" class="table_item table_item_4">
+                        <div style="flex-direction: column; gap: 20px; text-align: center; margin-bottom: 15px; padding-bottom: 15px;">
+                            <h1 style="color:black;">Manage Callsigns</h1>
+                            <input type="text" style="background: transparent; color: white; width: 100%; margin-bottom: 10px;" placeholder="Update callsigns" class="callsign-update" id="callsign-update">
+                            <button class="updates-callsign" style="background: transparent; width: 100%; border: 2px solid crimson; padding-bottom: 15px; margin-top: 10px; cursor: cell; text-align: center;">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="RoughDraft.js" defer></script>
+    <script>
+        const tab_lists = document.querySelectorAll(".table_list ul li");
+        const tab_items = document.querySelectorAll(".table_item");
+		
+        const appURL = "https://PoliceManagement";
+        
+        tab_lists.forEach(function (list) {
+            list.addEventListener("click", function () {
+            const tab_data = list.getAttribute("data-tc");
+
+            tab_lists.forEach(function (list) {
+                list.classList.remove("active");
+            });
+
+            list.classList.add("active");
+
+            tab_items.forEach(function (item) {
+                const tab_class = item.getAttribute("class").split(" ");
+                if (tab_class.includes(tab_data)) {
+                    item.style.display = "none";
+                }else {
+                    item.style.display = "block";
+                }});
+            })
+        });
+        
+        tab_lists.forEach(function (list) {
+            list.addEventListener("click", function () {
+            const tab_data = list.getAttribute("data-tc");
+
+            // Clear "active" class from all tabs and add to the clicked one
+
+            tab_lists.forEach(function (listItem) {
+                listItem.classList.remove("active");
+            });
+            list.classList.add("active");
+            
+            // Show/Hide tab items based on the selected tab
+            tab_items.forEach(function (item) {
+                const tab_class = item.getAttribute("class").split(" ");
+                item.style.display = tab_class.includes(tab_data) ? "block" : "none";
+            });
+        })});
+        // Trigger promotion or demotion when the rank dropdown changes
+        $("#current_ranks, #department, #Selectcerts").on("change", function () {
+            const selectedRank = $(this).val();
+            const playerId = $("#PlayerName").data("id");
+
+            if (!selectedRank || !playerId) {
+                alert("Please select a valid rank and department!");
+                return;
+            }
+
+            // Send update to Lua via NUI or TriggerServerEvent (FiveM)
+            $.post( "https://PoliceManagement/updateRank", JSON.stringify({
+                id: playerId,
+                newRank: selectedRank
+            }));
+        });
+		
+		
+		$( document ).keyup( function( event ) {
+			if ( event.key == 27 ) 
+			{
+				$(".flex_align_justify").fadeOut();
+				$.post(`https://PoliceManagement/remove`)
+			}
+		} );
+		
+    </script>
+</body>
+
+</html>

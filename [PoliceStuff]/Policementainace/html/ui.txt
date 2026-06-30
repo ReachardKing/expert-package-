@@ -1,0 +1,106 @@
+window.onload = async () => {
+    const spawnButton = document.querySelector('.spawn');
+    const CancelButton = document.querySelector('.Cancel');
+    const modelsElem = document.querySelector('.options');
+    const Extras = document.querySelector("#Extrascontainer");
+    const liveries = document.querySelector("#liveries");
+    const both = document.querySelector(".update");
+    
+    
+    modelsElem.innerHTML = '';
+    liveries.innerHTML = '';
+    Extras.innerHTML = '';
+    
+    modelsElem.disable = true;
+    liveries.disable = true;
+    Extras.disable = true;
+    spawnButton.disable = true;
+    CancelButton.disable = true;
+    both.disable = true;
+
+    const response = await fetch('vehicles.json', {
+        method: 'GET',
+        headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    
+    const json = await response.json()
+
+    for (const element of json) {
+        modelsElem.innerHTML += `<option value="${element.Name}">${element.DisplayName}</option>`
+        liveries.innerHTML += `<option value="${element.Livery}">${element.Livery}</option>`
+        Extras.innerHTML += `<option value="${element.extras}">${element.extras}</option>`
+    }
+
+    modelsElem.disable = false;
+    liveries.disable = false;
+    Extras.disable = false;
+    spawnButton.disable = false;
+    CancelButton.disable = false;
+    both.disable = false;
+
+    spawnButton.onclick = (e) => {
+        fetch(`https://${GetParentResourceName()}/Click`, {
+            method: 'POST',
+            body: JSON.stringify({
+                hash: modelsElem.value
+            })
+        })
+    }
+
+    both.onclick = () => {
+        fetch(`https://${GetParentResourceName()}/both`, {
+            method: 'GET',
+            body: JSON.stringify({
+                others: liveries.value,
+                others: Extras.value
+            })
+        })
+    }
+
+    CancelButton.onclick = (e) => {
+        fetch(`https://${GetParentResourceName()}/close`, {
+            method: 'POST'
+        })
+    }
+}
+
+window.addEventListener('message', (event) => {
+    const data = event.data;
+    $(".Spawn_HUD").hidde();
+    $(".ImpoundSettings").hidde();
+
+    if (data.type !=undefined && data.type === "HUD") {
+        if(data.visible) {
+            $(".Spawn_HUD").hidde();
+        } else {
+            $(".Spawn_HUD").show();
+        }
+    }
+    
+    if (data.type !=undefined && data.type ===  "Select") {
+        if(data.visible) {
+            $(".ImpoundSettings").hidde();
+        } else {
+            $(".ImpoundSettings").show();
+        }
+    }
+})
+
+window.addEventListener('message', (event) => {
+    const data = event.data;
+
+    if (typeof data.visible != 'undefined') {
+        document.querySelector('.container').style.display = data.visible && 'block' || 'none';
+    }
+})
+
+window.onkeydown = (e) => {
+    if (e.key == 'Escape' || e.key == 'Backspace') {
+        fetch(`https://${GetParentResourceName()}/close`, {
+            method: 'POST'
+        })
+    }
+}

@@ -1,0 +1,398 @@
+
+    
+[
+  {
+    "Name": "21ltz",
+    "DisplayName": "21ltz",
+    "Livery": 1,
+      "extars": 1,
+      "Hash": 3078201489,
+      "SignedHash": -1216765807,
+      "HexHash": "0xB779A091",
+      "DlcName": "TitleUpdate",
+      "HandlingId": "ADDER",
+      "LayoutId": "LAYOUT_LOW_RESTRICTED",
+      "Manufacturer": "TRUFFADE",
+      "ManufacturerDisplayName": "Truffade",
+      "Class": "SUPER",
+      "Type": "CAR",
+      "PlateType": "BACK_PLATES",
+      "DashboardType": "SUPERGT",
+      "WheelType": "HIEND",
+      "Flags": [
+        "FLAG_NO_BOOT",
+        "FLAG_SPORTS",
+        "FLAG_SPAWN_ON_TRAILER",
+        "FLAG_EXTRAS_REQUIRE",
+        "FLAG_EXTRAS_STRONG",
+        "FLAG_RICH_CAR",
+        "FLAG_NO_BROKEN_DOWN_SCENARIO",
+        "FLAG_COUNT_AS_FACEBOOK_DRIVEN",
+        "FLAG_HAS_INTERIOR_EXTRAS",
+        "FLAG_CAN_HAVE_NEONS"
+      ],
+      "Seats": 2,
+      "Price": -1,
+      "MonetaryValue": 80000,
+      "HasConvertibleRoof": false,
+      "HasSirens": true,
+      "Weapons": [],
+      "ModKits": [
+        "0_hiend_modkit"
+      ],
+      "DimensionsMin": {
+        "X": -1.07235718,
+        "Y": -2.20913219,
+        "Z": -0.595943
+      },
+      "DimensionsMax": {
+        "X": 1.0723567,
+        "Y": 2.287151,
+        "Z": 0.6308773
+      },
+      "BoundingCenter": {
+        "X": 0.0,
+        "Y": 0.0748,
+        "Z": 0.049034
+      },
+      "BoundingSphereRadius": 2.439114,
+      "Rewards": null,
+      "MaxBraking": 1.0,
+      "MaxBrakingMods": 1.1,
+      "MaxSpeed": 51.77096,
+      "MaxTraction": 2.5,
+      "Acceleration": 0.32,
+      "Agility": 0.7,
+      "MaxKnots": 0.0,
+      "MoveResistance": 0.0
+    },
+  {
+    "Name": "c8inter",
+    "DisplayName": "c8inter",
+    "Livery": 1,
+      "extars": 1,
+      "Hash": 3078201489,
+      "SignedHash": -1216765807,
+      "HexHash": "0xB779A091",
+      "DlcName": "TitleUpdate",
+      "HandlingId": "ADDER",
+      "LayoutId": "LAYOUT_LOW_RESTRICTED",
+      "Manufacturer": "TRUFFADE",
+      "ManufacturerDisplayName": "Truffade",
+      "Class": "SUPER",
+      "Type": "CAR",
+      "PlateType": "BACK_PLATES",
+      "DashboardType": "SUPERGT",
+      "WheelType": "HIEND",
+      "Flags": [
+        "FLAG_NO_BOOT",
+        "FLAG_SPORTS",
+        "FLAG_SPAWN_ON_TRAILER",
+        "FLAG_EXTRAS_REQUIRE",
+        "FLAG_EXTRAS_STRONG",
+        "FLAG_RICH_CAR",
+        "FLAG_NO_BROKEN_DOWN_SCENARIO",
+        "FLAG_COUNT_AS_FACEBOOK_DRIVEN",
+        "FLAG_HAS_INTERIOR_EXTRAS",
+        "FLAG_CAN_HAVE_NEONS"
+      ],
+      "Seats": 2,
+      "Price": -1,
+      "MonetaryValue": 80000,
+      "HasConvertibleRoof": false,
+      "HasSirens": true,
+      "Weapons": [],
+      "ModKits": [
+        "0_hiend_modkit"
+      ],
+      "DimensionsMin": {
+        "X": -1.07235718,
+        "Y": -2.20913219,
+        "Z": -0.595943
+      },
+      "DimensionsMax": {
+        "X": 1.0723567,
+        "Y": 2.287151,
+        "Z": 0.6308773
+      },
+      "BoundingCenter": {
+        "X": 0.0,
+        "Y": 0.0748,
+        "Z": 0.049034
+      },
+      "BoundingSphereRadius": 2.439114,
+      "Rewards": null,
+      "MaxBraking": 1.0,
+      "MaxBrakingMods": 1.1,
+      "MaxSpeed": 51.77096,
+      "MaxTraction": 2.5,
+      "Acceleration": 0.32,
+      "Agility": 0.7,
+      "MaxKnots": 0.0,
+      "MoveResistance": 0.0
+    },
+    {
+      "Name": "polmav",
+      "DisplayName": "polmav",
+      "Livery": 1,
+      "extars": 1,
+      "Hash": 3078201489,
+      "SignedHash": -1216765807,
+      "HexHash": "0xB779A091",
+      "DlcName": "TitleUpdate",
+      "HandlingId": "ADDER",
+      "LayoutId": "LAYOUT_LOW_RESTRICTED",
+      "Manufacturer": "TRUFFADE",
+      "ManufacturerDisplayName": "Truffade",
+      "Class": "SUPER",
+      "Type": "CAR",
+      "PlateType": "BACK_PLATES",
+      "DashboardType": "SUPERGT",
+      "WheelType": "HIEND",
+      "Flags": [
+        "FLAG_NO_BOOT",
+        "FLAG_SPORTS",
+        "FLAG_SPAWN_ON_TRAILER",
+        "FLAG_EXTRAS_REQUIRE",
+        "FLAG_EXTRAS_STRONG",
+        "FLAG_RICH_CAR",
+        "FLAG_NO_BROKEN_DOWN_SCENARIO",
+        "FLAG_COUNT_AS_FACEBOOK_DRIVEN",
+        "FLAG_HAS_INTERIOR_EXTRAS",
+        "FLAG_CAN_HAVE_NEONS"
+      ],
+      "Seats": 2,
+      "Price": -1,
+      "MonetaryValue": 80000,
+      "HasConvertibleRoof": false,
+      "HasSirens": true,
+      "Weapons": [],
+      "ModKits": [
+        "0_hiend_modkit"
+      ],
+      "DimensionsMin": {
+        "X": -1.07235718,
+        "Y": -2.20913219,
+        "Z": -0.595943
+      },
+      "DimensionsMax": {
+        "X": 1.0723567,
+        "Y": 2.287151,
+        "Z": 0.6308773
+      },
+      "BoundingCenter": {
+        "X": 0.0,
+        "Y": 0.0748,
+        "Z": 0.049034
+      },
+      "BoundingSphereRadius": 2.439114,
+      "Rewards": null,
+      "MaxBraking": 1.0,
+      "MaxBrakingMods": 1.1,
+      "MaxSpeed": 51.77096,
+      "MaxTraction": 2.5,
+      "Acceleration": 0.32,
+      "Agility": 0.7,
+      "MaxKnots": 0.0,
+      "MoveResistance": 0.0
+    },
+    {
+      "Name": "policeb",
+      "DisplayName": "policeb",
+      "Livery": 2,
+      "Hash": 1283517198,
+      "SignedHash": -362198621,
+      "HexHash": "0x4C80EB0E",
+      "DlcName": "TitleUpdate",
+      "HandlingId": "AIRBUS",
+      "LayoutId": "LAYOUT_BUS",
+      "Manufacturer": "",
+      "ManufacturerDisplayName": null,
+      "Class": "SERVICE",
+      "Type": "CAR",
+      "PlateType": "FRONT_AND_BACK_PLATES",
+      "DashboardType": "TRUCK",
+      "WheelType": "SPORT",
+      "Flags": [
+        "FLAG_BIG",
+        "FLAG_AVOID_TURNS",
+        "FLAG_HAS_LIVERY",
+        "FLAG_EXTRAS_STRONG",
+        "FLAG_PEDS_CAN_STAND_ON_TOP",
+        "FLAG_DONT_SPAWN_IN_CARGEN",
+        "FLAG_USE_FAT_INTERIOR_LIGHT",
+        "FLAG_BLOCK_FROM_ATTRACTOR_SCENARIO",
+        "FLAG_IS_BUS",
+        "FLAG_USE_FULL_ANIMS_FOR_MP_WARP_ENTRY_POINTS"
+      ],
+      "Seats": 16,
+      "Price": -1,
+      "MonetaryValue": 25000,
+      "HasConvertibleRoof": false,
+      "HasSirens": false,
+      "Weapons": [],
+      "ModKits": [],
+      "DimensionsMin": {
+        "X": -1.45035,
+        "Y": -6.640989,
+        "Z": -1.02011955
+      },
+      "DimensionsMax": {
+        "X": 1.45035,
+        "Y": 6.56101131,
+        "Z": 2.4124496
+      },
+      "BoundingCenter": {
+        "X": -1E-06,
+        "Y": -0.031226,
+        "Z": 0.83901
+      },
+      "BoundingSphereRadius": 6.927956,
+      "Rewards": null,
+      "MaxBraking": 0.25,
+      "MaxBrakingMods": 0.35,
+      "MaxSpeed": 25.5808945,
+      "MaxTraction": 1.45,
+      "Acceleration": 0.12,
+      "Agility": 0.5,
+      "MaxKnots": 0.0,
+      "MoveResistance": 0.0
+    },
+    {
+      "Name": "wm_demon170",
+      "DisplayName": "wm_demon170"
+    },
+    {
+      "Name": "policeb2",
+      "DisplayName": "policeb2",
+      "Hash": 1181327175,
+      "SignedHash": 1181327175,
+      "HexHash": "0x46699F47",
+      "DlcName": "mpchristmas2017",
+      "HandlingId": "AKULA",
+      "LayoutId": "LAYOUT_HELI_AKULA",
+      "Manufacturer": "",
+      "ManufacturerDisplayName": null,
+      "Class": "HELICOPTER",
+      "Type": "HELI",
+      "PlateType": "NONE",
+      "DashboardType": "LAZER",
+      "WheelType": "SPORT",
+      "Flags": [
+        "FLAG_NO_BOOT",
+        "FLAG_DRIVER_NO_DRIVE_BY",
+        "FLAG_NO_RESPRAY",
+        "FLAG_AVERAGE_CAR",
+        "FLAG_DONT_SPAWN_IN_CARGEN",
+        "FLAG_DONT_SPAWN_AS_AMBIENT",
+        "FLAG_DONT_TIMESLICE_WHEELS",
+        "FLAG_HELICOPTER_WITH_LANDING_GEAR",
+        "FLAG_HELI_USES_FIXUPS_ON_OPEN_DOOR",
+        "FLAG_HAS_TURRET_SEAT_ON_VEHICLE",
+        "FLAG_DISABLE_WEAPON_WHEEL_IN_FIRST_PERSON",
+        "FLAG_USE_TURRET_RELATIVE_AIM_CALCULATION",
+        "FLAG_RESET_TURRET_SEAT_HEADING",
+        "FLAG_USE_PILOT_HELMET",
+        "FLAG_HAS_CAPPED_EXPLOSION_DAMAGE",
+        "FLAG_USE_AIRCRAFT_STYLE_WEAPON_TARGETING",
+        "FLAG_CHECK_WARP_TASK_FLAG_DURING_ENTER"
+      ],
+      "Seats": 4,
+      "Price": 100,
+      "MonetaryValue": 52000,
+      "HasConvertibleRoof": false,
+      "HasSirens": true,
+      "Weapons": [
+        "VEHICLE_WEAPON_AKULA_TURRET_SINGLE",
+        "VEHICLE_WEAPON_AKULA_MISSILE",
+        "VEHICLE_WEAPON_AKULA_TURRET_DUAL",
+        "VEHICLE_WEAPON_AKULA_MINIGUN",
+        "VEHICLE_WEAPON_AKULA_BARRAGE"
+      ],
+      "ModKits": [
+        "256_akula_modkit"
+      ],
+      "DimensionsMin": {
+        "X": -7.695571,
+        "Y": -6.32792759,
+        "Z": -2.22036839
+      },
+      "DimensionsMax": {
+        "X": 7.695573,
+        "Y": 11.2567053,
+        "Z": 2.24567747
+      },
+      "BoundingCenter": {
+        "X": 0.000886,
+        "Y": 2.427456,
+        "Z": 0.059981
+      },
+      "BoundingSphereRadius": 11.70682,
+      "Rewards": null,
+      "MaxBraking": 3.5920403,
+      "MaxBrakingMods": 3.5920403,
+      "MaxSpeed": 61.0891228,
+      "MaxTraction": 1.3,
+      "Acceleration": 5.88,
+      "Agility": 5.88,
+      "MaxKnots": 1057.65649,
+      "MoveResistance": 0.0
+    },
+    {
+      "Name": "State3",
+      "DisplayName": "State3",
+      "Hash": 1672195559,
+      "SignedHash": 1672195559,
+      "HexHash": "0x63ABADE7",
+      "DlcName": "TitleUpdate",
+      "HandlingId": "AKUMA",
+      "LayoutId": "LAYOUT_BIKE_SPORT",
+      "Manufacturer": "DINKA",
+      "ManufacturerDisplayName": "Dinka",
+      "Class": "MOTORCYCLE",
+      "Type": "BIKE",
+      "PlateType": "BACK_PLATES",
+      "DashboardType": "SPORTBK",
+      "WheelType": "BIKE",
+      "Flags": [
+        "FLAG_NO_BOOT",
+        "FLAG_IGNORE_ON_SIDE_CHECK",
+        "FLAG_AVERAGE_CAR",
+        "FLAG_HEADLIGHTS_USE_ACTUAL_BONE_POS"
+      ],
+      "Seats": 2,
+      "Price": -1,
+      "MonetaryValue": 20000,
+      "HasConvertibleRoof": false,
+      "HasSirens": true,
+      "Weapons": [],
+      "ModKits": [
+        "4_akuma_modkit"
+      ],
+      "DimensionsMin": {
+        "X": -0.353354722,
+        "Y": -0.9755423,
+        "Z": -0.539825439
+      },
+      "DimensionsMax": {
+        "X": 0.37060675,
+        "Y": 1.05629122,
+        "Z": 1.15324342
+      },
+      "BoundingCenter": {
+        "X": 4E-05,
+        "Y": 0.04102,
+        "Z": 0.070441
+      },
+      "BoundingSphereRadius": 1.053603,
+      "Rewards": null,
+      "MaxBraking": 1.2,
+      "MaxBrakingMods": 1.30000007,
+      "MaxSpeed": 48.3333359,
+      "MaxTraction": 2.15,
+      "Acceleration": 0.4,
+      "Agility": 0.780000031,
+      "MaxKnots": 0.0,
+      "MoveResistance": 0.0
+    }
+]

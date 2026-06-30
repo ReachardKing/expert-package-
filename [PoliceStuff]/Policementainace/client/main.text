@@ -1,0 +1,36 @@
+Citizen.CreateThread(function()
+    while true do Citizen.Wait(0)
+        local pl = GetEntityCoords(GetPlayerPed(-1))
+        if Vdist(pl.x, pl.y, pl.z, 459.01, -1017.19, 28.16) < 3.0 then
+            if IsControlJustPressed(1, 38)  then -- MRPD
+                SendNUIMessage({type = "HUD", visible = true, SetNuiFocus(true, true)})
+            end 
+        end
+        if Vdist(pl.x, pl.y, pl.z, -458.43, 6031.92, 31.49) < 3.5  then
+            if IsControlJustPressed(1, 38) then -- Plaeto Station
+                SendNUIMessage({type = "HUD", visible = true, SetNuiFocus(true, true)})
+            end 
+        end
+        if Vdist(pl.x, pl.y, pl.z, 1860.08, 3681.87, 33.8) < 3.5 then
+            if IsControlJustPressed(1, 38) then -- Sandy Shores
+                SendNUIMessage({type = "HUD", visible = true, SetNuiFocus(true, true)})
+            end 
+        end
+        if GetDistanceBetweenCoords(pl.x, pl.y, pl.z, 865.33, -1337.45, 26.3) < 3.5 then
+            if IsControlJustPressed(1, 38)  then -- La Mesa Police Department
+                SendNUIMessage({type = "HUD", visible = true, SetNuiFocus(true, true)})
+            end 
+        end
+
+        if  Vdist(pl.x, pl.y, pl.z, 535.62, -21.49, 70.63) < 3.0 then
+            if IsControlJustPressed(0, 51) then -- Vine wood
+                SendNUIMessage({type = "HUD", visible = true, SetNuiFocus(true, true)})
+            end
+        end 
+        if Vdist(pl.x, pl.y, pl.z, -1124.91, -832.56, 13.48) < 3.0 then
+            if IsControlJustPressed(0, 51)  then
+                SendNUIMessage({type = "HUD", visible = true, SetNuiFocus(true, true)})
+            end
+        end
+    end
+end)

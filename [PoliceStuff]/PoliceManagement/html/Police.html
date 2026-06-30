@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <title>Police Management</title>
+</head>
+<style>
+  @import url('https://use.fontawesome.com/releases/v6.7.2/css/all.css');
+
+  /* Hire Functions */
+
+  /* Functions */
+
+  * {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  #container {
+    margin: 15.5px;
+    border-radius: 25px;
+    border: 17px solid #5555;
+    background: #555;
+    color: white;
+    position: absolute;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 36em;
+    height: 26em;
+    top: calc(50% - -3em);
+    left: calc(50% - 20em);
+  }
+
+  #container input ~ .label-line  {
+    transform: translateY(10px);
+  }
+
+  #container input:focus ~ .label-line {
+    transform: translateX(30px);
+    opacity: 1;
+  }
+
+  .ContentManagement {
+    margin: 15.5px;
+    position: absolute;
+    border-radius: 25px;
+    border: 17px solid black;
+    background: black;
+    color: white;
+    width: 35em;
+    height: 11em;
+    top: calc(50% - -15em);
+    left: calc(50% - 20em);
+  }
+
+  p {
+    background:black;
+    color: white;
+    font-size: 20px;
+  }
+
+  .EditTopTextline {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 1) 15%, rgba(255, 255, 255, 1) 85%, rgba(0, 0, 0, 0.014) 100%);
+    height: 0.1vh;
+    width: 100%;
+    border: none;
+    border-radius: 2vh;
+  }
+
+  .close {
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: -7px;
+    width: 30px;
+    background: purple;
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 50%;
+  }
+
+  h1, h2, h3 h4, h5, h6 {
+    font-size: 11px;
+  }
+  
+  /* Text Input */
+  
+  .input-wrap {
+    width: 680px;
+  }
+
+  .enterarea {
+    position:relative;
+    height: 80px;
+    line-height: 80px;
+  }
+
+  .enterarea input{
+    position: absolute;
+    width: 75%;
+    font-size: 15px;
+    padding:0 10px;
+    margin:30px 0 0;
+    line-height: 30px;
+    border-radius: 10px;
+    border: 2px solid white;
+    background: transparent;
+    transition: 0.2s ease;
+    z-index: 1111;
+  }
+
+  .label-line {
+    position: absolute;
+    font-size: 15px;
+    color: white;
+    margin:0  5px;
+    padding: 0 20px;
+    background: transparent;
+    transition: 0.2s ease;
+    pointer-events: none;
+  }
+
+  input:focus {
+    border: 2px solid rgb(8, 252, 69);
+  }
+  
+  input:focus ~ .label-line {
+    transform: translateY(-60px);
+    opacity: 1;
+  }
+  
+  /* Grade section */
+  select, .input-wrap, select {
+    width: 99%;
+    background: #555;
+    transition: 0.2s ease;
+  }
+
+  /* Show certs */
+
+  .checkbox {
+    opacity: 0;
+    position: relative;
+  }
+
+  .label {
+    background-color: #111;
+    border-radius: 50px;
+    top: calc(50% - 1em);
+    left: calc(50% - 17em);
+    cursor: pointer;
+    display: flex;
+    padding: 3px;
+    position: absolute;
+    height: 20px;
+    width: 50px;
+    transform: scale(0.5);
+  }
+  
+  .label .ball {
+    background-color:blue;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    height: 22px;
+    width: 22px;
+    transform: translateX(0px);
+    transition: transform 0.2s linear;
+  }
+
+  .checkbox:checked + .label .ball {
+    transform: translateX(24px);
+  }
+
+  .button-confirm, .button-cancel {
+    margin-left: 0.3vw; width: 8.6vw; height: 3vh; border-radius: 0.5vh; transition: 0.3s; cursor: pointer;
+  }
+
+  #button-confirm, .button-cancel {
+    margin-left: 0.3vw; width: 8.6vw; height: 3vh; border-radius: 0.5vh; transition: 0.3s; cursor: pointer;
+
+  }
+
+  #button-confirm {
+    background: rgb(8, 252, 69);
+  }
+
+  .button-confirm {
+    background: rgb(8, 252, 69);
+  }
+
+  .button-cancel {
+    background: rgb(236, 19, 19)
+  }
+</style>
+
+<body>
+  <div class="ContentManagement">
+    <h5 style="background: purple; color: white;">Welcome: <p id="PlayerName" style="color: white;"></p></h5>
+    <button type="button" class="close" aria-label="close">&minus;</button>
+    <hr class="EditTopTextline">
+    <input type="text" id="Searched-name" placeholder=" Player Name">
+    <input type="text" id="callsign" placeholder="callsign">  
+    <button class="button-confirm">Confirm</button>
+    <button class="button-cancel">Cancel</button>
+  </div>
+
+  <div style="position: absolute; top: 2%; right: 1%; text-align: left; opacity: 0.3; z-index: 999; color: rgb(184, 185, 185); font-size: 0.5vw; opacity: 0.8;">[Police Management]</div>
+
+  <!-- On player clcik -->
+
+  <div class="container" id="container">
+    <p>Law Enforcement Management </p>
+    <button type="button" class="close">&minus;</button>
+    
+    <button id="Terminate" style="width: 100%; position: relative; background: gray; border: 2px solid crimson; transition: 0.5s; cursor: pointer;"><i class="fa-solid fa-fire"> Treminate Employeement</i> This will fire <span id="Searched-name"></span></button> <!-- Treminate player from work-->
+    <button id="Suspension" style="width: 100%; position: relative; background: gray; border: 2px solid crimson; transition: 0.5s; cursor: pointer;"><i class="fa-solid fa-fire"> Suspension Employeement</i> This will Suspend <span id="Searched-name"></span></button> <!-- Treminate player from work-->
+    <button id="PermanentlyTerminate"d style="width: 100%; position: relative; background: grey; border: 2px solid crimson; transition: 0.5s; cursor: pointer;"><i class="fa-solid fa-fire"> PermanentlyTreminated</i> This will Permanently fire <span id="Searched-name"></span></button> <!-- PermanentlyTreminated-->
+    
+    <!-- Grade-->
+    <div class="input-wrap">
+      <div class="Selection">
+        <div class="label-line">Ranks *</div>
+        <select>
+          <option></option>
+          <option id="position">Cadet</option>
+          <option id="position">Officer</option>
+          <option id="position">Senior Officer</option>
+          <option id="position">Corporal</option>
+          <option id="position">Trooper</option>
+          <option id="position">Sergeant</option>
+          <option id="position">Lieutenant</option>
+          <option id="position">Supervisor</option>
+          <option id="position">Chief</option>
+          <option id="position">Command</option>
+          <option id="position">High Command</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Departments -->
+    <div class="input-wrap">
+      <div class="Department">
+        <div class="label-line">Departments *</div>
+        <select>
+          <option></option>
+          <option id="rank">Park Ranger</option>
+          <option id="rank">Los Santos Police Department</option>
+          <option id="rank">Blain County Sheriff Office</option>
+          <option id="rank">San Andreas State Trooper</option>
+          <option id="rank">San Andreas Security Services</option>
+          <option id="rank">San Andreas Fire & Rescue</option>
+          <option id="rank">San Andreas Dispatch Department</option>
+        </select>
+      </div>
+    </div>
+    <!-- Trainer --> <!-- FTO Sertification -->
+    <div style="width: 93%; position: relative; border: 2px solid crimson; font-size: 15px; text-align: right;"><input type="checkbox" class="checkbox" id="chk"/><label class="label" for="chk"><div class="ball" id="Trainer"></div></label></div>
+
+    <div class="input-wrap">
+      <div class="Certification">
+        <div class="label-line">Certification *</div>
+        <select>
+          <option></option>
+          <option id="certs">Air Certification</option>
+          <option id="certs">Interseptor Certification</option>
+          <option id="certs">Motor Certification</option>
+          <option id="certs">SWAT Certification</option>
+          <option id="certs">Marin Certification</option>
+          <option id="certs">K-9</option>
+          <option id="certs">Air Certification, Interseptor Certification, Motor Certification, SWAT Certification, Field Taining Officer, K-9</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- More coming soon -->
+    <!-- Other -->
+    <div class="input-wrap">
+      <div class="Other">
+        <div class="label-line">Others *</div>
+        <select>
+          <option></option>
+          <option>Adminstrator Assestance</option>
+          <option>Jentor</option>
+          <option>Local COP</option>
+        </select>
+      </div>
+    </div>
+    <div class="button">
+      <button id="button-confirm">Confirm</button>
+      <button class="button-cancel">Cancel</button>
+    </div>
+  </div>
+  <script src="Info.js" defer></script>
+  <script src="OpenPoliceMenus.js"></script>
+</body>
+
+</html>
